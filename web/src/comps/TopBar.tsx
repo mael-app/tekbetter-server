@@ -15,7 +15,7 @@ function NavElement(props: { text: string, icon: any, link: string }) {
 
     return (
         <div
-            className={"flex items-center text-white cursor-pointer px-5 h-full hover:bg-blue-900 transition " + (is_active ? "bg-blue-900" : "")}
+            className={"flex flex-col rounded-2xl items-center justify-center cursor-pointer px-5 transition hover:bg-blue-800 hover:text-white " + (is_active ? "bg-blue-800 text-white font-bold" : "")}
             onClick={() => navigate(props.link)}>
             <div className={"flex flex-row items-center justify-center"}>
                 <div>
@@ -23,7 +23,6 @@ function NavElement(props: { text: string, icon: any, link: string }) {
                 </div>
                 <p className={"ml-2"}>{props.text}</p>
             </div>
-
         </div>
     );
 }
@@ -55,9 +54,9 @@ function SyncStatus() {
 
 
     const gen_visual = (color: string, icon: any, text: string) => (
-        <div className={"flex px-1.5 flex-row items-center rounded-full bg-blue-300 bg-opacity-20"}>
+        <div className={"flex px-1.5 flex-row items-center rounded-full bg-blue-300 bg-opacity-40"}>
             <FontAwesomeIcon icon={icon} className={color} fontSize={"13px"}/>
-            <p className={"text-white text-xs my-1 ml-1 text-nowrap"}>Sync: {text}</p>
+            <p className={"text-xs my-1 ml-1 text-nowrap"}>Sync: {text}</p>
         </div>
     );
 
@@ -78,24 +77,37 @@ function SyncStatus() {
 
 export default function TopBar(): React.ReactElement {
     return (
-        <div className={"flex h-10 flex-row items-center bg-gray-700 overflow-x-auto scroll-container"}>
+        <div
+            className={"flex flex-row justify-between items-center text-gray-700 overflow-x-auto p-3 scroll-container"}>
 
-            <div className={"flex flex-row items-center mr-8"}>
+
+            <div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>
                 <img
-                    src={require("../assets/epitech.png")}
+                    src={require("../assets/tblogo.png")}
                     alt={"Epitech"}
-                    className={"w-9 ml-1"}
+                    className={"w-9 ml-1 shadow rounded-full"}
                 />
-                <p className={"text-white ml-1 mr-2 font-bold"}>TekBetter</p>
-                <SyncStatus/>
+                <p className={"ml-1 mr-2 font-bold"}>TekBetter</p>
             </div>
 
-            <div className={"flex flex-row flex-grow justify-start ml-2 h-full gap-1"}>
+
+            <div className={"flex flex-row gap-2 rounded-2xl justify-start ml-2 h-full shadow-lg"}>
                 <NavElement text={"Moulinettes"} link={"/moulinettes"} icon={faGraduationCap}/>
                 <NavElement text={"Modules"} link={"/modules"} icon={faShareNodes}/>
                 <NavElement text={"Calendar"} link={"/calendar"} icon={faCalendarCheck}/>
                 <NavElement text={"Synchronisation"} link={"/sync"} icon={faCheckCircle}/>
             </div>
+
+            <div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>
+                <img
+                    src={require("../assets/tblogo.png")}
+                    alt={"Epitech"}
+                    className={"w-9 ml-1 shadow rounded-full"}
+                />
+                <p className={"ml-1 mr-2 font-bold"}>Eliot Amanieu</p>
+                <SyncStatus/>
+            </div>
+
         </div>
     );
 }

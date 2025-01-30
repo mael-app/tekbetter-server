@@ -12,6 +12,11 @@ import FullError from "./comps/FullError";
 import {vars} from "./api/api";
 import Footer from "./comps/Footer";
 import ModulePage from "./pages/module/ModulePage";
+import {useCallback} from "react";
+
+import Particles from "react-tsparticles";
+import {loadFull} from "tsparticles";
+import MyParticles from "./comps/MyParticles";
 
 function App() {
 
@@ -29,11 +34,16 @@ function App() {
         }
     }, []);
 
+   // return <MyParticles/>
+
+
     return (
         <div className={"h-screen flex flex-col"}>
+            {/*<MyParticles/>*/}
+
             <TopBar/>
             {error && <FullError title={error.title} message={error.message}/>}
-            <div className={"overflow-y-auto h-screen"}>
+            <div className={"overflow-y-auto h-screen p-1"}>
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
