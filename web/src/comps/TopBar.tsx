@@ -2,12 +2,14 @@ import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faCalendarCheck, faCheckCircle, faGears,
-    faGraduationCap, faShareNodes,
+    faGraduationCap, faPowerOff, faShareNodes,
     faWarning
 } from "@fortawesome/free-solid-svg-icons";
 import {dateToElapsed} from "../tools/DateString";
 import {useEffect, useState} from "react";
-import {getSyncStatus} from "../api/global.api";
+import {getStudentData, getSyncStatus} from "../api/global.api";
+import StudentData from "../models/StudentData";
+import {vars} from "../api/api";
 
 function NavElement(props: { text: string, icon: any, link: string }) {
     const navigate = useNavigate();
@@ -76,6 +78,40 @@ function SyncStatus() {
         return gen_visual("text-green-500", faCheckCircle, dateToElapsed(last_sync));
 }
 
+function UserComp() {
+    const [user, setUser] = useState<StudentData | null>(null);
+
+    useEffect(() => {
+        getStudentData("myself").then((data) => {
+            setUser(data);
+        }).catch(() => {
+        });
+    }, []);
+
+    if (user === null) return null;
+
+
+    return <div className={"flex flex-row items-center gap-2"}>
+        <div className={"flex flex-row items-center mr-2"}>
+            <img
+                src={`${vars.backend_url}/api/global/picture/${user.login}`}
+                alt={"Profile Picture"}
+                className={"w-8 h-8 rounded-full object-cover mr-2"}
+            />
+
+            <p className={"text-white text-nowrap"}>{user?.name}</p>
+        </div>
+        <div title={"Logout"} className={"text-center bg-black bg-opacity-0 hover:bg-opacity-20 h-full w-10 p-2 cursor-pointer transition"} onClick={() => {
+            if (window.confirm("Are you sure you want to log out?")) {
+                localStorage.removeItem("auth");
+                window.location.reload();
+            }
+        }}>
+            <FontAwesomeIcon icon={faPowerOff} className={"text-red-500"}/>
+        </div>
+    </div>
+}
+
 export default function TopBar(): React.ReactElement {
     return (
         <div className={"flex h-10 flex-row items-center bg-gray-700 overflow-x-auto scroll-container"}>
@@ -97,6 +133,8 @@ export default function TopBar(): React.ReactElement {
                 <NavElement text={"Synchronisation"} link={"/sync"} icon={faCheckCircle}/>
                 <NavElement text={"Settings"} link={"/settings"} icon={faGears}/>
             </div>
+
+            <UserComp/>
         </div>
     );
 }

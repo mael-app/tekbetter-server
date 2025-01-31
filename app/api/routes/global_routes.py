@@ -27,11 +27,14 @@ def load_global_routes(app):
     def get_student(student_id: str):
         student = request.student
 
-        stud = StudentService.get_student_by_id(student_id)
-        if not stud:
-            return {"message": "Student not found"}, 404
-        if not student.is_consent_share or not stud.is_consent_share:
-            return {"message": "Student not found"}, 404
+        if student_id == "myself":
+            stud = student
+        else:
+            stud = StudentService.get_student_by_id(student_id)
+            if not stud:
+                return {"message": "Student not found"}, 404
+            if not student.is_consent_share or not stud.is_consent_share:
+                return {"message": "Student not found"}, 404
 
         return {
             "login": stud.login,
