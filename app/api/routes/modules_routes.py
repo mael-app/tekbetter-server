@@ -21,12 +21,12 @@ def load_module_routes(app):
             "required_credits": student.required_credits
         }
 
-    @app.route("/api/modules/<string:mod_code>", methods=["POST"])
+    @app.route("/api/modules/<int:module_id>", methods=["POST"])
     @student_auth_middleware()
-    def module_update_route(mod_code):
+    def module_update_route(module_id):
         student = request.student
 
-        module = ModuleService.get_module_by_code(student.id, mod_code)
+        module = ModuleService.get_module_by_id(student.id, module_id)
         if not module:
             return {"message": "Module not found"}, 404
         data = request.get_json()

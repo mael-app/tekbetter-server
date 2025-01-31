@@ -25,6 +25,13 @@ class ModuleService:
         return None
 
     @staticmethod
+    def get_module_by_id(student_id: str, module_id: int) -> Module | None:
+        p = Globals.database["modules"].find_one({"module_id": module_id, "student_id": student_id})
+        if p:
+            return Module(p)
+        return None
+
+    @staticmethod
     def get_latest_fetchdate(student_id: str) -> str:
         p = Globals.database["modules"].find_one({"student_id": student_id},
                                                   sort=[("fetch_date", -1)])
@@ -32,7 +39,7 @@ class ModuleService:
 
     @staticmethod
     def upload_module(module: Module):
-        curr = ModuleService.get_module_by_code(module.student_id, module.code_module)
+        curr = ModuleService.get_module_by_id(module.student_id, module.module_id)
         if curr:
             module._id = curr._id
             module.code_module = curr.code_module
@@ -55,6 +62,7 @@ class ModuleService:
                 modules[mod.code_module] = {
                     "code": mod.code_module,
                     "scolaryear": mod.scol_year,
+                    "id": mod.module_id,
                     "name": mod.title,
                 }
         return modules

@@ -84,7 +84,7 @@ def load_scrapers_routes(app):
 
         return {
             "known_tests": moulis_ids,
-            "known_modules": [m.code_module for m in ModuleService.get_recent_fetched_modules(student.id)],
+            "known_modules": [m.module_id for m in ModuleService.get_recent_fetched_modules(student.id)],
             "asked_slugs": asked_slugs,
             "asked_pictures": [] if StudentPictureService.is_picture_exists(student.login) else [student.login],
             "fetch_start": start.strftime("%Y-%m-%d"),

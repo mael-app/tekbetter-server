@@ -6,10 +6,11 @@ from app.models.Project import Project
 
 def fill_module_from_intra(intra_json: dict, module: Module,
                             student_id: int):
-    for key in ["codemodule", "semester", "scolaryear", "title", "begin", "end", "end_register", "student_credits", "student_grade", "credits", "allow_register", "student_registered", "tb_is_roadblock", "tb_roadblock_submodules", "tb_required_credits", "codeinstance"]:
+    for key in ["id", "codemodule", "semester", "scolaryear", "title", "begin", "end", "end_register", "student_credits", "student_grade", "credits", "allow_register", "student_registered", "tb_is_roadblock", "tb_roadblock_submodules", "tb_required_credits", "codeinstance"]:
         if key not in intra_json:
             return False
     module.student_id = student_id
+    module.module_id = intra_json["id"]
     module.code_module = intra_json["codemodule"]
     module.instance_code = intra_json["codeinstance"]
     module.semester_id = intra_json["semester"]
@@ -20,9 +21,6 @@ def fill_module_from_intra(intra_json: dict, module: Module,
     module.date_end_registration = intra_json["end_register"]
     module.registration_allowed = str(intra_json["allow_register"]) == "1"
     module.student_registered = str(intra_json["student_registered"]) == "1"
-
-
-
 
 
     module.student_credits = intra_json["student_credits"]

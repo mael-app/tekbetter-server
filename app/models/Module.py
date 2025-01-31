@@ -3,6 +3,7 @@ class Module:
     student_id: str
 
     code_module: str
+    module_id: int
     semester_id: int
     instance_code: str
     scol_year: int
@@ -32,6 +33,7 @@ class Module:
         self._id = mongo_data["_id"]
         self.student_id = mongo_data.get("student_id", None)
         self.code_module = mongo_data.get("code_module", None)
+        self.module_id = mongo_data.get("module_id", None)
         self.instance_code = mongo_data.get("instance_code", None)
         self.semester_id = mongo_data.get("semester_id", None)
 
@@ -61,6 +63,7 @@ class Module:
             "_id": self._id,
             "student_id": self.student_id,
             "code_module": self.code_module,
+            "module_id": self.module_id,
             "instance_code": self.instance_code,
             "semester_id": self.semester_id,
             "scol_year": self.scol_year,
@@ -84,6 +87,7 @@ class Module:
         return {
             "code_module": self.code_module,
             "semester_id": self.semester_id,
+            "module_id": self.module_id,
             "scol_year": self.scol_year,
             "instance_code": self.instance_code,
             "title": self.title,
