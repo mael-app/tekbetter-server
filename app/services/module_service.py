@@ -38,6 +38,10 @@ class ModuleService:
         return p["fetch_date"] if p else None
 
     @staticmethod
+    def purge_nonid_modules():
+        Globals.database["modules"].delete_many({"module_id": {"$exists": False}})
+
+    @staticmethod
     def upload_module(module: Module):
         curr = ModuleService.get_module_by_id(module.student_id, module.module_id)
         if curr:

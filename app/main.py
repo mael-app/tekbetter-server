@@ -13,6 +13,7 @@ from app.api.routes.scrapers_routes import load_scrapers_routes
 from app.api.routes.settings_routes import load_settings_routes
 from app.api.routes.sync_routes import load_sync_routes
 from app.globals import Globals
+from app.services.module_service import ModuleService
 from app.services.mouli_service import MouliService
 from app.services.publicscraper_service import PublicScraperService
 from app.tools.envloader import load_env
@@ -101,6 +102,8 @@ def create_app():
     CORS(flask_app)
     if os.getenv("BYPASS_CACHE_RELOAD", "false") == "false":
         MouliService.refresh_all_cache()
+
+    ModuleService.purge_nonid_modules()
 
     return flask_app
 
