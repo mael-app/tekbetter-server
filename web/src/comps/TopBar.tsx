@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {dateToElapsed} from "../tools/DateString";
 import {useEffect, useState} from "react";
-import {getStudentData, getSyncStatus} from "../api/global.api";
+import {getStudentData, SyncStatusType} from "../api/global.api";
 import StudentData from "../models/StudentData";
 import {vars} from "../api/api";
 
@@ -35,28 +35,23 @@ function NavElement(props: { text: string, icon: any, link: string, close?: () =
 }
 
 
-function SyncStatus(props: { className?: string }) {
+function GlobalSyncStatus(props: { className?: string }) {
 
     const [last_sync, setLastSync] = useState<Date | null>(null);
 
     useEffect(() => {
-        const reload = async () => {
-            const status = await getSyncStatus();
-            let date = (() => {
-                if (status.mouli !== null) return status.mouli;
-                if (status.planning !== null) return status.planning;
-                if (status.projects !== null) return status.projects;
-                return null;
-            })();
-            setLastSync(date);
+        const update = (status: SyncStatusType) => {
+            if (status.scraping) {
+                setLastSync(status.scraping.last_update);
+            } else {
+                setLastSync(null);
+            }
         }
-        const interval = setInterval(async () => {
-            reload().catch(() => {
-            });
-        }, 30000);
-        reload().catch(() => {
-        });
-        return () => clearInterval(interval);
+        vars.registerSyncStatusCallback(update);
+
+        return () => {
+            vars.syncStatusCallbacks = vars.syncStatusCallbacks.filter(callback => callback !== update);
+        }
     }, []);
 
 
@@ -104,7 +99,7 @@ function UserComp() {
             <p className={"font-bold text-nowrap hidden xl:block"}>{user?.name}</p>
             <p className={"font-bold text-nowrap xl:hidden"}>{user?.name.split(" ")[0]}</p>
 
-            <SyncStatus className={"hidden sm:flex"}/>
+            <GlobalSyncStatus className={"hidden sm:flex"}/>
         </div>
 
         <div title={"Logout"}
@@ -143,13 +138,18 @@ function UserComp() {
     //    </div>
 }
 
-function PhoneBar(props: { className: string, routes: { text: string, link: string, icon: any }[], close?: () => void }) {
+function PhoneBar(props: {
+    className: string,
+    routes: { text: string, link: string, icon: any }[],
+    close?: () => void
+}) {
     return (
         <div className={"flex flex-col gap-1 p-5 " + props.className}>
             <div className={"mb-2"}>
-                <SyncStatus/>
+                <GlobalSyncStatus/>
             </div>
-            {props.routes.map((route, key) => <NavElement key={key} text={route.text} link={route.link} icon={route.icon} close={props.close} />)}
+            {props.routes.map((route, key) => <NavElement key={key} text={route.text} link={route.link}
+                                                          icon={route.icon} close={props.close}/>)}
         </div>
     );
 }
@@ -174,8 +174,9 @@ export default function TopBar(): React.ReactElement {
                 className={"flex flex-row justify-between min-h-20 items-center text-gray-700 py-2 overflow-x-auto scroll-container px-3"}>
                 <div className={"flex flex-row items-center"}>
 
-                    <div className={"lg:hidden flex flex-row items-center mr-1 hover:bg-gray-200 p-2 rounded-full cursor-pointer"}
-                            onClick={() => setPhoneBarOpen(!phoneBarOpen)}>
+                    <div
+                        className={"lg:hidden flex flex-row items-center mr-1 hover:bg-gray-200 p-2 rounded-full cursor-pointer"}
+                        onClick={() => setPhoneBarOpen(!phoneBarOpen)}>
                         <FontAwesomeIcon icon={phoneBarOpen ? faXmark : faBars} className={"text-lg"}/>
                     </div>
 

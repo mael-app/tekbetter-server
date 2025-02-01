@@ -19,10 +19,11 @@ from app.services.mouli_service import MouliService
 from app.services.planning_service import PlanningService
 from app.services.project_service import ProjectService
 from app.services.publicscraper_service import PublicScraperService
+from app.services.redis_service import RedisService
 from app.services.student_picture_service import StudentPictureService
 from app.services.student_service import StudentService
 from app.tools.aes_tools import decrypt_token
-from app.tools.teklogger import log_warning
+from app.tools.teklogger import log_warning, log_debug
 
 
 def load_scrapers_routes(app):
@@ -91,6 +92,33 @@ def load_scrapers_routes(app):
             "fetch_end": end.strftime("%Y-%m-%d")
         }
 
+    @app.route("/api/scraper/status", methods=["POST"])
+    @scraper_auth_middleware()
+    def update_scraper_status():
+        """
+        Update the sync status of the scraper
+        """
+
+        student = request.student
+
+        values_whitelist = ["loading", "success", "error"]
+        keys_whitelist = ["mouli", "planning", "projects", "slugs", "modules", "avatar", "profile", "auth", "scraping"]
+
+        data = request.json
+
+        for k in keys_whitelist:
+            if not k in data:
+                continue
+            value = data[k]
+            if not value in values_whitelist:
+                continue
+            RedisService.set(f"{student.login}:scraper-status:{k}", value)
+            if not k == "scraping" or value == "success":
+                RedisService.set(f"{student.login}:scraper-status:{k}:last-update", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            log_debug(f"Updated scraper status for {student.login} : {k} -> {value}")
+
+        return "OK"
+
     @app.route("/api/scraper/push", methods=["POST"])
     @scraper_auth_middleware()
     def push_data():
@@ -100,7 +128,8 @@ def load_scrapers_routes(app):
         student = request.student
         data = request.json
 
-        required_keys = ["intra_profile", "intra_projects", "intra_planning", "new_moulis", "projects_slugs", "students_pictures", "modules"]
+        required_keys = ["intra_profile", "intra_projects", "intra_planning", "new_moulis", "projects_slugs",
+                         "students_pictures", "modules"]
         for key in required_keys:
             if key not in data:
                 log_warning(f"Failed to retrieve data from scraper for user {student.login} : Missing key {key}")

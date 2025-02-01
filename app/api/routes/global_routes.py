@@ -3,6 +3,7 @@ from flask import request, make_response
 from app.api.middlewares.student_auth_middleware import student_auth_middleware
 from app.services.planning_service import PlanningService
 from app.services.project_service import ProjectService
+from app.services.redis_service import RedisService
 from app.services.student_picture_service import StudentPictureService
 from app.services.student_service import StudentService
 
@@ -13,12 +14,27 @@ def load_global_routes(app):
     def global_sync_status():
         student = request.student
 
-        latest_planning = PlanningService.get_latest_fetched_date(student.id)
-        latest_project = ProjectService.get_latest_fetchdate(student.id)
+        def forkey(k):
+            value = RedisService.get(f"{student.login}:scraper-status:{k}")
+            if not value:
+                return None
+            date = RedisService.get(f"{student.login}:scraper-status:{k}:last-update")
+            if not date:
+                return None
+            return {
+                "status": value,
+                "last_update": date
+            }
+
+        keys = ["mouli", "planning", "projects", "slugs", "modules", "avatar", "profile", "auth", "scraping"]
+        result = {}
+
+        for k in keys:
+            result[k] = forkey(k)
 
         return {
-            "planning": latest_planning,
-            "projects": latest_project
+            "status": result,
+            "scraper_id": student.public_scraper_id
         }
 
 

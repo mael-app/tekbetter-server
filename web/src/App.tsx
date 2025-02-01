@@ -6,17 +6,14 @@ import MouliPage from "./pages/mouli/MouliPages";
 import TopBar from "./comps/TopBar";
 import "./assets/styles/base.css"
 import CalendarPage from "./pages/CalendarPage";
-import SyncPage from "./pages/SyncPage";
+import SyncPage from "./pages/sync/SyncPage";
 import AuthPage from "./pages/AuthPage";
 import FullError from "./comps/FullError";
 import {vars} from "./api/api";
 import Footer from "./comps/Footer";
 import ModulePage from "./pages/module/ModulePage";
-import {useCallback} from "react";
-import Particles from "react-tsparticles";
-import {loadFull} from "tsparticles";
-import MyParticles from "./comps/MyParticles";
 import SettingsPage from "./pages/SettingsPage";
+import {getSyncStatus} from "./api/global.api";
 
 function App() {
 
@@ -32,6 +29,11 @@ function App() {
                 message: message || "An error occured, please try again later."
             });
         }
+        const interval = setInterval(async () => {
+            getSyncStatus().catch(() => {});
+        }, 30000);
+        getSyncStatus().catch(() => {});
+        return () => clearInterval(interval);
     }, []);
 
     return (

@@ -1,5 +1,6 @@
 import axios from "axios";
 import StudentData from "../models/StudentData";
+import {SyncStatusType} from "./global.api";
 
 export class StaticVars {
 
@@ -7,6 +8,18 @@ export class StaticVars {
     studentsCache: StudentData[] = [];
 
     backend_url = process.env.REACT_APP_API_URL || window.location.origin
+
+    syncStatus: SyncStatusType = {};
+    syncStatusCallbacks: ((status: SyncStatusType) => void)[] = [];
+
+    registerSyncStatusCallback(callback: (status: SyncStatusType) => void) {
+        this.syncStatusCallbacks.push(callback);
+        callback(this.syncStatus);
+    }
+    updateSyncStatus(status: SyncStatusType) {
+        this.syncStatus = status;
+        this.syncStatusCallbacks.forEach(callback => callback(status));
+    }
 
     constructor() {
         this.setErrorPopup = (title: string | null, message: string | null) => {

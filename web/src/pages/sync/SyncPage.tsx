@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
-import WindowElem, {BasicBox} from "../comps/WindowElem";
-import {getCalendarToken, regenCalendarToken} from "../api/calendar.api";
-import {deleteMicrosoftToken, putMicrosoftToken} from "../api/sync.api";
-import LoadingComp from "../comps/LoadingComp";
+import WindowElem from "../../comps/WindowElem";
+import {getCalendarToken, regenCalendarToken} from "../../api/calendar.api";
+import {deleteMicrosoftToken, putMicrosoftToken} from "../../api/sync.api";
+import LoadingComp from "../../comps/LoadingComp";
 import {faEarth, faGear, faSquareArrowUpRight, faWarning} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import Button from "../comps/Button";
+import Button from "../../comps/Button";
+import SyncStatusWindow from "./SyncStatusWindow";
 
 
 function PublicScraperSetup() {
@@ -34,7 +35,7 @@ function PublicScraperSetup() {
 
             <div className="flex flex-row items-center gap-2">
                 <img
-                    src={require("../assets/microsoft.png")}
+                    src={require("../../assets/microsoft.png")}
                     alt="Microsoft logo"
                     className="w-36"
                 />
@@ -206,9 +207,11 @@ export default function SyncPage(): React.ReactElement {
                                     ))
                                 }
                             </div>
-
                             {page === "public" ? <PublicScraperSetup/> : <PrivateScraperSetup/>}
                         </div>
+                    </WindowElem>
+                    <WindowElem title={"Live scraper status"} className="">
+                        <SyncStatusWindow/>
                     </WindowElem>
                 </div>
 
