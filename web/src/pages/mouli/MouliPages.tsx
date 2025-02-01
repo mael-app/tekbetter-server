@@ -86,7 +86,7 @@ export default function MouliPage(): React.ReactElement {
                 {
                     project_slug == null ? null :
                         <div className={"overflow-y-auto flex-grow"}>
-                            <div className={"flex flex-row items-center gap-2 bg-gray-300 xl:hidden"}
+                            <div className={"flex flex-row items-center gap-2  xl:hidden"}
                                  onClick={() => navigate("/moulinettes")}>
                                 <FontAwesomeIcon icon={faChevronLeft} className={"ml-2"}/>
                                 <h1 className={"text-2xl font-bold ml-2"}>{project_slug}</h1>

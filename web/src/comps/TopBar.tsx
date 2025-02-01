@@ -35,7 +35,7 @@ function NavElement(props: { text: string, icon: any, link: string, close?: () =
 }
 
 
-function SyncStatus() {
+function SyncStatus(props: { className?: string }) {
 
     const [last_sync, setLastSync] = useState<Date | null>(null);
 
@@ -61,7 +61,7 @@ function SyncStatus() {
 
 
     const gen_visual = (color: string, icon: any, text: string) => (
-        <div className={"flex px-1.5 flex-row items-center rounded-full bg-blue-300 bg-opacity-20"}>
+        <div className={"flex px-1.5 flex-row items-center rounded-full bg-blue-300 bg-opacity-20 " + props.className}>
             <FontAwesomeIcon icon={icon} className={color} fontSize={"13px"}/>
             <p className={"text text-xs my-1 ml-1 text-nowrap"}>Sync: {text}</p>
         </div>
@@ -98,11 +98,13 @@ function UserComp() {
         <img
             src={`${vars.backend_url}/api/global/picture/${user.login}`}
             alt={"Epitech"}
-            className={"w-11 h-11 ml-1 shadow rounded-full object-cover"}
+            className={"w-10 h-10 ml-1 shadow rounded-full object-cover"}
         />
         <div className={"flex flex-col ml-2 items-start justify-center w-fit"}>
-            <p className={"font-bold text-nowrap"}>{user?.name}</p>
-            <SyncStatus/>
+            <p className={"font-bold text-nowrap hidden xl:block"}>{user?.name}</p>
+            <p className={"font-bold text-nowrap xl:hidden"}>{user?.name.split(" ")[0]}</p>
+
+            <SyncStatus className={"hidden sm:flex"}/>
         </div>
 
         <div title={"Logout"}
@@ -144,7 +146,10 @@ function UserComp() {
 function PhoneBar(props: { className: string, routes: { text: string, link: string, icon: any }[], close?: () => void }) {
     return (
         <div className={"flex flex-col gap-1 p-5 " + props.className}>
-            {props.routes.map((route) => <NavElement text={route.text} link={route.link} icon={route.icon} close={props.close} />)}
+            <div className={"mb-2"}>
+                <SyncStatus/>
+            </div>
+            {props.routes.map((route, key) => <NavElement key={key} text={route.text} link={route.link} icon={route.icon} close={props.close} />)}
         </div>
     );
 }
@@ -171,7 +176,7 @@ export default function TopBar(): React.ReactElement {
 
                     <div className={"lg:hidden flex flex-row items-center mr-1 hover:bg-gray-200 p-2 rounded-full cursor-pointer"}
                             onClick={() => setPhoneBarOpen(!phoneBarOpen)}>
-                        <FontAwesomeIcon icon={phoneBarOpen ? faXmark : faBars} className={"text-2xl"}/>
+                        <FontAwesomeIcon icon={phoneBarOpen ? faXmark : faBars} className={"text-lg"}/>
                     </div>
 
 
