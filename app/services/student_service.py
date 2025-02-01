@@ -2,9 +2,7 @@ import os
 import random
 import string
 from datetime import datetime, timedelta
-
-from snowflake import SnowflakeGenerator
-
+from uuid import uuid4
 from app.globals import Globals
 from app.models.Student import Student
 from app.services.mail_service import MailService
@@ -21,9 +19,15 @@ class StudentService:
         return Student(student) if student else None
 
     @staticmethod
-    def get_student_by_id(student_id: str) -> Student:
+    def get_student_by_id(student_id: str) -> Student or None:
         student = Globals.database["students"].find_one({"_id": student_id})
         return Student(student) if student else None
+
+    @staticmethod
+    def filter_share_consent(student_ids: [str]) -> [str]:
+        students = Globals.database["students"].find({"_id": {"$in": [str(sid) for sid in student_ids]}, "is_consent_share": True})
+
+        return [student["_id"] for student in students if student]
 
     @staticmethod
     def get_students_by_public_scraper(scraper_id: str) -> [Student]:
@@ -46,8 +50,7 @@ class StudentService:
     def add_student(student: Student):
         if StudentService.get_student_by_login(student.login):
             return
-        gen = SnowflakeGenerator(42)
-        student._id = next(gen)
+        student._id = str(uuid4()).replace("-", "")
         student.last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         Globals.database["students"].insert_one(student.to_dict())
         StudentService.regenerate_scraper_token(student)
@@ -56,8 +59,7 @@ class StudentService:
     @staticmethod
     def update_student(student: Student):
         student.last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        Globals.database["students"].update_one({"_id": student.id},
-                                                {"$set": student.to_dict()})
+        Globals.database["students"].update_one({"_id": student.id}, {"$set": student.to_dict()})
 
     @staticmethod
     def delete_student(student: Student):
@@ -65,8 +67,7 @@ class StudentService:
 
     @staticmethod
     def get_student_by_scrapetoken(token: str) -> Student:
-        student = Globals.database["students"].find_one(
-            {"scraper_token": token})
+        student = Globals.database["students"].find_one({"scraper_token": token})
         return Student(student) if student else None
 
     @staticmethod
@@ -85,7 +86,7 @@ class StudentService:
         ticket_url = f"{os.getenv("APP_URL")}/auth?ticket={ticket}"
         RedisService.set(f"register_ticket_{ticket}", email,
                          60 * 60)  # Expires in 1 hour
-        log_debug(f"Register ticket created for {email}: {ticket}")
+        log_debug(f"Register ticket created for {email}: {ticket_url}")
         if os.getenv("ENABLE_MAILER") == "true":
             subject: str = "Confirm Your TekBetter Account"
             body: str = f"""\
@@ -128,4 +129,4 @@ class StudentService:
 
     @staticmethod
     def generate_jwt_token(student: Student):
-        return generate_jwt(student, datetime.utcnow() + timedelta(days=7))
+        return generate_jwt(student, datetime.utcnow() + timedelta(days=900))

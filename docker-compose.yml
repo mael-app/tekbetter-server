@@ -9,7 +9,7 @@ services:
 
   redis:
     image: redis:latest
-    container_name: redis-tekbetter
+    container_name: redis
     environment:
       REDIS_PASSWORD: azerty
     ports:

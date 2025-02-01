@@ -19,7 +19,7 @@ def student_auth_middleware():
             if jwt_decoded["exp"] < int(datetime.now().timestamp()):
                 return {"message": "Token expired"}, 401
 
-            student_id = jwt_decoded["student_id"]
+            student_id = str(jwt_decoded["student_id"])
             student = StudentService.get_student_by_id(student_id)
             if not student:
                 return {"message": "Invalid authorization header"}, 401

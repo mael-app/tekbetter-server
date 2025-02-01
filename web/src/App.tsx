@@ -13,10 +13,10 @@ import {vars} from "./api/api";
 import Footer from "./comps/Footer";
 import ModulePage from "./pages/module/ModulePage";
 import {useCallback} from "react";
-
 import Particles from "react-tsparticles";
 import {loadFull} from "tsparticles";
 import MyParticles from "./comps/MyParticles";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
 
@@ -34,16 +34,11 @@ function App() {
         }
     }, []);
 
-   // return <MyParticles/>
-
-
     return (
         <div className={"h-screen flex flex-col"}>
-            {/*<MyParticles/>*/}
-
             <TopBar/>
             {error && <FullError title={error.title} message={error.message}/>}
-            <div className={"overflow-y-auto h-screen p-1"}>
+            <div className={"overflow-y-auto h-screen"}>
                 <Routes>
                     <Route path="/" element={<HomePage/>}/>
                     <Route path="/auth" element={<AuthPage/>}/>
@@ -53,6 +48,7 @@ function App() {
                     <Route path="/modules" element={<ModulePage/>}/>
                     <Route path="/moulinettes/:project_slug"
                            element={<MouliPage/>}/>
+                    <Route path="/settings" element={<SettingsPage/>}/>
                 </Routes>
             </div>
             <div>

@@ -35,5 +35,5 @@ pycparser~=2.22
 wsproto~=1.2.0
 webdriver-manager~=4.0.2
 PyJWT~=2.10.1
-snowflake-id~=1.0.2
 ics~=0.7.2
+mailersend~=0.5.8

@@ -25,4 +25,7 @@ def load_mouli_routes(app):
         student = request.student
 
         test = MouliService.get_mouli_by_id(test_id, student.id)
+
+        if student.is_consent_share:
+            MouliService.fill_passed_users(test, student.promo_year, student.city)
         return test.to_api()

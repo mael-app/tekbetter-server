@@ -14,6 +14,8 @@ class Student:
     microsoft_session: str = None
     public_scraper_id: str = None
 
+    is_consent_share: bool = True
+
     last_update: str = None
 
     def to_dict(self):
@@ -32,17 +34,18 @@ class Student:
             "last_update": self.last_update,
             "scraper_token": self.scraper_token,
             "microsoft_session": self.microsoft_session,
-            "public_scraper_id": self.public_scraper_id
+            "public_scraper_id": self.public_scraper_id,
+            "is_consent_share": self.is_consent_share
         }
 
     @property
     def id(self):
-        return self._id
+        return str(self._id)
 
     def __init__(self, mongo_data=None):
         if mongo_data is None:
             return
-        self._id = mongo_data["_id"]
+        self._id = str(mongo_data["_id"])
         self.login = mongo_data["login"]
         self.password_hash = mongo_data.get("password_hash", None)
         self.first_name = mongo_data.get("first_name", None)
@@ -57,6 +60,7 @@ class Student:
         self.last_update = mongo_data.get("last_update", None)
         self.microsoft_session = mongo_data.get("microsoft_session", None)
         self.public_scraper_id = mongo_data.get("public_scraper_id", None)
+        self.is_consent_share = mongo_data.get("is_consent_share", False)
 
     def get_scraper(self):
         from app.services.publicscraper_service import PublicScraperService

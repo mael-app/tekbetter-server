@@ -10,8 +10,10 @@ from app.api.routes.modules_routes import load_module_routes
 from app.api.routes.mouli_routes import load_mouli_routes
 from app.api.routes.project_routes import load_project_routes
 from app.api.routes.scrapers_routes import load_scrapers_routes
+from app.api.routes.settings_routes import load_settings_routes
 from app.api.routes.sync_routes import load_sync_routes
 from app.globals import Globals
+from app.services.mouli_service import MouliService
 from app.services.publicscraper_service import PublicScraperService
 from app.tools.envloader import load_env
 from app.tools.teklogger import log_info, log_debug, log_error, log_success
@@ -85,6 +87,7 @@ def create_app():
     load_calendar_routes(flask_app)
     load_sync_routes(flask_app)
     load_auth_routes(flask_app)
+    load_settings_routes(flask_app)
 
     # Serve React App
     @flask_app.route('/', defaults={'path': ''})
@@ -95,8 +98,9 @@ def create_app():
         else:
             return send_from_directory(flask_app.static_folder, 'index.html')
 
-
     CORS(flask_app)
+    if os.getenv("BYPASS_CACHE_RELOAD", "false") == "false":
+        MouliService.refresh_all_cache()
 
     return flask_app
 

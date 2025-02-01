@@ -6,7 +6,7 @@ export default function HomePage(): React.ReactElement {
     const nav = useNavigate();
 
     useEffect(() => {
-        nav("/sync");
+        nav("/moulinettes");
     }, []);
     return (
         <TopBar/>

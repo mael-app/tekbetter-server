@@ -53,7 +53,7 @@ ENV PYTHONPATH=/app \
     FLASK_ENV=production \
     FLASK_DEBUG=0 \
     DASHBOARD_BUILD_PATH=/app/dashboard_build \
-    SCRAPERS_CONFIG_FILE=/app/scrapers.json
+    DATA_PATH=/data
 
 # Create non-root user
 RUN useradd -m -s /bin/bash appuser && \

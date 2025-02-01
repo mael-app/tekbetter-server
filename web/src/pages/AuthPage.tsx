@@ -97,7 +97,7 @@ export default function AuthPage(): React.ReactElement {
             <div className={"p-10 shadow rounded bg-white"}>
                 <div className={"flex flex-col items-center gap-5 mb-6"}>
                     <img
-                        src={require("../assets/epitech.png")}
+                        src={require("../assets/tblogo.png")}
                         alt={"Epitech logo"}
                         className={"w-24"}
                     />
@@ -227,7 +227,7 @@ export default function AuthPage(): React.ReactElement {
                 }
 
 
-                <div className={"flex-row flex items-center gap-1"}>
+                <div className={"flex-row flex items-center gap-1 hover:bg-gray-100 w-min px-1 mt-3 rounded-2xl cursor-pointer"} onClick={() => window.open("https://github.com/EliotAmn/tekbetter-server", "_blank")}>
                     <div className={"w-6"}>
                         <GithubLogo/>
                     </div>

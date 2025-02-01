@@ -1,11 +1,17 @@
 import axios from "axios";
+import StudentData from "../models/StudentData";
 
 export class StaticVars {
+
     setErrorPopup: (title: string | null, message: string | null) => void;
+    studentsCache: StudentData[] = [];
+
+    backend_url = process.env.REACT_APP_API_URL || window.location.origin
 
     constructor() {
         this.setErrorPopup = (title: string | null, message: string | null) => {
         }
+        this.studentsCache = [];
     }
 }
 

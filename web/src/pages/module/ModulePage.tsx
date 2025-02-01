@@ -2,11 +2,12 @@ import {BasicBox} from "../../comps/WindowElem";
 import React, {useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faBrain,
     faCalendarCheck,
     faCheckCircle,
     faCoins,
-    faHammer,
-    faMinusCircle, faQuestionCircle,
+    faHammer, faHourglass,
+    faMinusCircle, faPlus, faQuestionCircle,
     faUserGraduate,
     faWarning, faXmarkCircle
 } from "@fortawesome/free-solid-svg-icons";
@@ -27,19 +28,19 @@ function RoadBlock(props: {
     icon: any
 }) {
     return <div
-        className={"flex flex-col border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition"}>
+        className={"flex flex-col border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition h-full"}>
         <div className={"flex flex-row items-center justify-between gap-2 p-2"}>
 
             <div className={"flex flex-row items-center gap-1"}>
                 {props.is_registered ? <FontAwesomeIcon icon={props.icon}/> :
                     <div className={"flex flex-row items-center gap-1"}>
                         <FontAwesomeIcon icon={faWarning} className={"text-red-500"}/>
-                        <p className={"text-xs text-red-500 italic"}>Not registered</p>
+                        <p className={"text-xs text-red-500 italic hidden sm:block"}>Not registered</p>
                     </div>
                 }
-                {props.url !== null ? <h2 className={"font-bold text-nowrap hover:underline cursor-pointer"}
+                {props.url !== null ? <h2 className={"font-bold hover:underline cursor-pointer"}
                                           onClick={() => window.open(props.url!)}>{props.title}</h2>
-                    : <h2 className={"font-bold text-nowrap"}>{props.title}</h2>}
+                    : <h2 className={"font-bold  "}>{props.title}</h2>}
             </div>
             <div className={"flex flex-row items-center gap-1"}>
                 {
@@ -47,7 +48,10 @@ function RoadBlock(props: {
                         <FontAwesomeIcon icon={faWarning} className={"text-red-600"}/> :
                         <FontAwesomeIcon icon={faCoins}/>
                 }
-                {props.required_credits !== null ? <h2>{props.current_credits}/{props.required_credits} credits</h2> :
+                {props.required_credits !== null ?
+                    <h2 className={"flex flex-row items-center gap-1"}>{props.current_credits}/{props.required_credits}
+                        <span
+                            className={"hidden sm:block"}>credits</span></h2> :
                     <h2>{props.current_credits} credits</h2>}
             </div>
 
@@ -84,7 +88,7 @@ function ModuleList(props: { modules: EpiModule[] }) {
                 }}>{m.module_title}</h2>
 
                 {!m.student_registered &&
-                    <p className={"text-xs italic text-gray-300"}>Not registered</p>}
+                    <p className={"text-xs italic text-gray-300  hidden xl:block"}>Not registered</p>}
                 {m.is_failed() &&
                     <p className={"text-xs italic text-red-500"}>Module failed</p>}
 
@@ -94,10 +98,33 @@ function ModuleList(props: { modules: EpiModule[] }) {
             </div>
             <div className={"flex flex-row items-center gap-2"}>
                 <FontAwesomeIcon icon={faUserGraduate}/>
-                <h2 className={is_undernoted(m) ? "text-orange-300" : ""}>{m.student_credits}/{m.available_credits} credits</h2>
+                <h2 className={(is_undernoted(m) ? "text-orange-300" : "") + " flex flex-row items-center gap-1"}>{m.student_credits}/{m.available_credits}
+                    <span className={"hidden sm:block"}>credits</span></h2>
             </div>
         </div>
     ))
+}
+
+
+function TopCard(props: { title: string, icon: any, isOk?: boolean, children: React.ReactNode }) {
+
+    return (
+        <div
+            className={"flex flex-col w-full border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition"}>
+            <div className={"flex flex-row items-center justify-between gap-2 p-2"}>
+
+                <div className={"flex flex-row items-center gap-1 text"}>
+                    <FontAwesomeIcon icon={props.icon}/>
+                    <h2 className={"font-bold text-nowrap"}>{props.title}</h2>
+                </div>
+                <div>
+                    <FontAwesomeIcon icon={props.isOk ? faCheckCircle : faXmarkCircle}
+                                     className={props.isOk ? "text-green-500" : "text-red-500"}/>
+                </div>
+            </div>
+            {props.children}
+        </div>
+    )
 }
 
 
@@ -122,6 +149,14 @@ export default function ModulePage(): React.ReactElement {
         })
     }, []);
 
+    const getStrategyCredits: () => number = () => {
+        let available_credits = 0
+        year_modules!
+            .filter((m) => m.student_registered)
+            .filter((m) => !m.is_failed())
+            .forEach((m) => available_credits += m.student_credits > 0 ? m.student_credits : m.available_credits)
+        return available_credits;
+    }
 
     const generateRoadBlock = (roadblock: EpiModule) => {
 
@@ -171,29 +206,60 @@ export default function ModulePage(): React.ReactElement {
     const other_road_modules = year_modules
         .filter((m) => !m.is_roadblock)
         .filter((m) => !roadblock_modules.includes(m.module_code))
+        .sort((a, b) => a.student_registered ? -1 : 1);
 
 
     const available_years = api_data.modules.map((m) => m.school_year).filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a > b ? 1 : -11);
 
     return (
-        <div className={"flex flex-col flex-wrap gap-4"}>
+        <div className={"flex flex-col flex-wrap gap-4 p-3"}>
 
-            <div className={"flex flex-row items-center gap-2 bg-red-950 border-red-500 border rounded w-full p-2"}>
-                <h1 className={"text-red-400"}>This feature is under development. Please verify any information directly on the intranet.</h1>
+            <div className={"flex flex-col gap-1"}>
+                <h1 className={"text-2xl text font-bold"}>My Modules & Roadblocks</h1>
+
+                <div className={"flex flex-row gap-2"}>
+
+                    {available_years.map((year) => (
+                        <Button icon={faCalendarCheck} text={`Year ${year}`} onClick={() => setSelectedYear(year)}/>
+                    ))}
                 </div>
 
-            <BasicBox className={"flex flex-row gap-1"}>
-                {available_years.map((year) => (
-                    <Button icon={faCalendarCheck} text={`Year ${year}`} onClick={() => setSelectedYear(year)} />
-                ))}
-            </BasicBox>
+            </div>
+
+
+            <div className={"flex flex-col gap-4 sm:flex-row"}>
+
+
+                <TopCard title={"Your credits"} icon={faUserGraduate} isOk={true}>
+                    <div className={"flex flex-row items-center gap-2 text-2xl"}>
+                        <FontAwesomeIcon icon={faCoins} className={"text-yellow-500"}/>
+                        <p className={"font-bold text"}>{api_data.credits}</p>
+                    </div>
+                </TopCard>
+
+                <TopCard title={"Your strategy"} icon={faBrain}
+                         isOk={api_data.credits + getStrategyCredits() >= api_data.required_credits}>
+                    <p className={"italic text-xs text"}>To validate your year</p>
+                    <div className={"flex flex-row items-center gap-2 text-2xl"}>
+                        <FontAwesomeIcon icon={faCoins} className={"text-yellow-500"}/>
+                        <div className={"flex text flex-row items-baseline"}>
+                            <p className={"font-bold"}>{api_data.credits + getStrategyCredits()}</p>
+                            <p className={"text-xs"}>/{api_data.required_credits} required</p>
+                        </div>
+                    </div>
+                </TopCard>
+
+                <TopCard title={"Missing credits"} icon={faHourglass}
+                         isOk={api_data.required_credits - api_data.credits <= 0}>
+                    <div className={"flex flex-row items-center gap-2"}>
+                        <FontAwesomeIcon icon={faPlus} className={"text-yellow-500"}/>
+                        <p className={"text-xl text font-bold"}>{(api_data.required_credits - api_data.credits < 0 ? 0 : api_data.required_credits - api_data.credits)}</p>
+                    </div>
+                </TopCard>
+            </div>
 
             <BasicBox className={"flex-grow"}>
-                <div>
-                    <h1>RoadBlocks</h1>
-                </div>
-
-                <div className={"grid grid-cols-3 gap-2"}>
+                <div className={"flex flex-col gap-4 sm:grid sm:grid-cols-2 xl:grid-cols-3"}>
 
                     {year_modules
                         .filter((m) => m.is_roadblock).map((m) => generateRoadBlock(m))}

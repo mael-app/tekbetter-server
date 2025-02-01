@@ -3,7 +3,7 @@ name: Pipeline
 on:
   push:
     branches:
-      - main
+      - release
       - dev-production
 
 env:
@@ -70,7 +70,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY_IMAGE }}
           tags: |
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/release' }}
             type=raw,value=development,enable=${{ github.ref == 'refs/heads/dev-production' }}
             type=sha,format=short
 

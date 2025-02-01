@@ -59,7 +59,6 @@ class RedisService:
         RedisService.ensure_connection()
         try:
             RedisService.connection.set(key, value, ex=ex)
-            log_debug(f"Key '{key}' set successfully.")
         except Exception as e:
             log_error(f"Error setting key '{key}': {e}")
             raise
@@ -75,7 +74,6 @@ class RedisService:
         RedisService.ensure_connection()
         try:
             value = RedisService.connection.get(key)
-            log_debug(f"Key '{key}' retrieved successfully.")
             return value
         except Exception as e:
             log_error(f"Error getting key '{key}': {e}")

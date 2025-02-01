@@ -31,6 +31,7 @@ their daily life.
 | SCRAPERS_CONFIG_FILE | The path to the scrapers configuration file. Optional                      | scrapers.json |
 | APP_URL              | The app url used to send register links by email.                          |               |
 | ENABLE_MAILER        | Enable the mailer service.                                                 | false         |
+| BYPASS_CACHE_RELOAD  | This bypass the cache reload when the server is started.                   | false         |
 
 ### Frontend (`/web/.env`)
 

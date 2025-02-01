@@ -8,6 +8,7 @@ import React from "react";
 import ProgressBar from "@ramonak/react-progress-bar";
 import {MouliSkill, MouliTestClass} from "../../models/MouliResult";
 import scoreColor from "../../tools/ScoreColor";
+import PersonsButton from "../../models/PersonsButton";
 
 function MouliTest(props: { test: MouliTestClass, setPopupValue: (value: string) => void }): React.ReactElement {
     const test = props.test;
@@ -19,6 +20,8 @@ function MouliTest(props: { test: MouliTestClass, setPopupValue: (value: string)
     return <div className={"flex flex-row items-center gap-1 p-2 rounded-md text-gray-500"}>
         <FontAwesomeIcon icon={test.is_crashed ? faSkull : test.is_passed ? faCheckCircle : faXmarkCircle}
                          className={color}/>
+
+        {test.passed_students && <PersonsButton students_ids={test.passed_students}/>}
         <p className={"font-bold text-nowrap"}>{test.name}</p>
         {/*<p className={`font-bold ${test.is_passed ? "text-green-600" : "text-red-500"}`}>{test.is_crashed ? "CRASH" : test.is_passed ? "Passed" : "FAIL"}</p>*/}
         <div className={"flex flex-row items-center ml-2"}>
@@ -62,6 +65,8 @@ export default function MouliTestSkill(props: { skill: MouliSkill, setPopupValue
                     <ProgressBar height={"10px"} baseBgColor={"rgba(0,0,0,0.09)"} completed={skill.score}
                                  bgColor={scoreColor(skill.score).html} isLabelVisible={false}/>
                 </div>
+                { skill.passed_students && <PersonsButton students_ids={skill.passed_students!}/>}
+
             </div>
         </div>
 

@@ -8,15 +8,15 @@ from app.tools.teklogger import log_warning
 
 
 def get_config():
-    if not os.path.exists(os.getenv("SCRAPERS_CONFIG_FILE")):
-        log_warning("Scrapers config file does not exist, creating a new one at " + os.getenv("SCRAPERS_CONFIG_FILE"))
-        with open(os.getenv("SCRAPERS_CONFIG_FILE"), "w") as f:
+    config_file_path = os.path.join(os.getenv("DATA_PATH"), "scrapers.json")
+    if not os.path.exists(config_file_path):
+        with open(config_file_path, "w") as f:
             f.write("[]")
-    if not os.access(os.getenv("SCRAPERS_CONFIG_FILE"), os.R_OK):
-        raise Exception(f"{os.getenv('SCRAPERS_CONFIG_FILE')} is not readable")
-    if not os.access(os.getenv("SCRAPERS_CONFIG_FILE"), os.W_OK):
-        raise Exception(f"{os.getenv('SCRAPERS_CONFIG_FILE')} is not writable")
-    with open(os.getenv("SCRAPERS_CONFIG_FILE"), "r") as f:
+    if not os.access(config_file_path, os.R_OK):
+        raise Exception(f"{config_file_path} is not readable")
+    if not os.access(config_file_path, os.W_OK):
+        raise Exception(f"{config_file_path} is not writable")
+    with open(config_file_path, "r") as f:
         return json.load(f)
 
 

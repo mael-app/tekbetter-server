@@ -33,6 +33,8 @@ export class MouliTestClass {
     is_skipped: boolean;
     is_mandatory: boolean;
     comment: string | null;
+    passed_students: string[] | null;
+
 
     constructor(data: any) {
         this.name = data.name;
@@ -41,6 +43,7 @@ export class MouliTestClass {
         this.is_skipped = data.is_skipped;
         this.is_mandatory = data.is_mandatory;
         this.comment = data.comment;
+        this.passed_students = data.passed_students;
     }
 }
 
@@ -54,6 +57,7 @@ export class MouliSkill {
     mandatory_failed_count: number;
 
     tests: MouliTestClass[] | null;
+    passed_students: string[] | null;
 
     isCrashed() {
         return this.tests_count > 0 && (this.tests !== null && this.tests.filter(test => test.is_crashed).length > 0);
@@ -72,6 +76,7 @@ export class MouliSkill {
         this.tests_crashed_count = data.crash_count;
         this.mandatory_failed_count = data.mandatoryfail_count;
         this.tests = data.tests;
+        this.passed_students = data.passed_students;
     }
 
 }
