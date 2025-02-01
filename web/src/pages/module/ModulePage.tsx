@@ -1,11 +1,13 @@
 import {BasicBox} from "../../comps/WindowElem";
 import React, {useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import EpiCoinFilled from "../../assets/svg/epicoinfilled.svg";
+
 import {
     faBrain,
     faCalendarCheck,
     faCheckCircle,
-    faCoins,
+    faBitcoinSign,
     faHammer, faHourglass,
     faMinusCircle, faPlus, faQuestionCircle,
     faUserGraduate,
@@ -15,7 +17,6 @@ import {EpiModule} from "../../models/Module";
 import getModules from "../../api/module.api";
 import LoadingComp from "../../comps/LoadingComp";
 import Button from "../../comps/Button";
-
 
 function RoadBlock(props: {
     children: React.ReactNode,
@@ -46,7 +47,9 @@ function RoadBlock(props: {
                 {
                     props.current_credits < props.required_credits! ?
                         <FontAwesomeIcon icon={faWarning} className={"text-red-600"}/> :
-                        <FontAwesomeIcon icon={faCoins}/>
+                        <div className={"w-6 h-6"}>
+                            <EpiCoinFilled/>
+                        </div>
                 }
                 {props.required_credits !== null ?
                     <h2 className={"flex flex-row items-center gap-1"}>{props.current_credits}/{props.required_credits}
@@ -232,7 +235,9 @@ export default function ModulePage(): React.ReactElement {
 
                 <TopCard title={"Your credits"} icon={faUserGraduate} isOk={true}>
                     <div className={"flex flex-row items-center gap-2 text-2xl"}>
-                        <FontAwesomeIcon icon={faCoins} className={"text-yellow-500"}/>
+                        <div className={"w-6 h-6"}>
+                            <EpiCoinFilled/>
+                        </div>
                         <p className={"font-bold text"}>{api_data.credits}</p>
                     </div>
                 </TopCard>
@@ -241,7 +246,9 @@ export default function ModulePage(): React.ReactElement {
                          isOk={api_data.credits + getStrategyCredits() >= api_data.required_credits}>
                     <p className={"italic text-xs text"}>To validate your year</p>
                     <div className={"flex flex-row items-center gap-2 text-2xl"}>
-                        <FontAwesomeIcon icon={faCoins} className={"text-yellow-500"}/>
+                        <div className={"w-6 h-6"}>
+                            <EpiCoinFilled/>
+                        </div>
                         <div className={"flex text flex-row items-baseline"}>
                             <p className={"font-bold"}>{api_data.credits + getStrategyCredits()}</p>
                             <p className={"text-xs"}>/{api_data.required_credits} required</p>
