@@ -1,4 +1,4 @@
-import {faCheckCircle, faChevronDown, faUserCheck} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faChevronDown, faUserCheck, faUserXmark} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {getStudentData} from "../api/global.api";
@@ -30,13 +30,13 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
                         {students.map((stud, index) => {
 
                             return <div key={index}
-                                        className={"flex flex-row items-center bg-gray-100 w-full pr-3 p-1  rounded text-gray-600"}>
+                                        className={"flex flex-row items-center bg-gray-100 pr-3 p-1  rounded text-gray-600"}>
                                 <img
                                     src={`${vars.backend_url}/api/global/picture/${stud.login}`}
                                     alt={stud.name}
                                     className={"rounded-full mr-2 object-cover w-10 h-10"}
                                 />
-                                <p className={"text-sm"}>{stud.name}</p>
+                                <p className={"text-sm text-nowrap"}>{stud.name}</p>
                             </div>
                         })}
                     </div>}
@@ -50,7 +50,7 @@ export default function PersonsButton(props: { students_ids: string[] }) {
     const [mousePosition, setMousePosition] = React.useState({x: 0, y: 0});
 
     return <div title={"Show validated students"}
-                className={"flex flex-row items-center rounded bg-gray-200 text-gray-600 px-1 h-6 text-xs py-1 gap-1 hover:bg-gray-300 cursor-pointer " + (props.students_ids.length === 0 ? "hidden" : "")}
+                className={"flex flex-row w-10 items-center rounded text-gray-600 px-1 h-6 text-xs py-1 gap-1 hover:bg-gray-300 cursor-pointer " + (props.students_ids.length === 0 ? "bg-gray-100 opacity-40" : " bg-green-200")}
                 onClick={(e) => {
                     e.stopPropagation();
                     setIsOpen(true);
@@ -59,10 +59,10 @@ export default function PersonsButton(props: { students_ids: string[] }) {
                 onMouseLeave={() => setIsOpen(false)}
                 onMouseMove={(e) => setMousePosition({x: e.clientX, y: e.clientY})}
     >
-        <FontAwesomeIcon icon={faUserCheck}/>
-        <FontAwesomeIcon icon={faChevronDown}/>
+        <FontAwesomeIcon icon={ props.students_ids.length > 0 ? faUserCheck : faUserXmark} className={"text-xs"}/>
+        <p className={"m-0 mt-0.5"}>{props.students_ids.length}</p>
 
-        {isOpen &&
+        {isOpen && props.students_ids.length > 0 &&
             <PersonsModal students_ids={props.students_ids} mouseX={mousePosition.x}
                           mouseY={mousePosition.y}/>}
 
