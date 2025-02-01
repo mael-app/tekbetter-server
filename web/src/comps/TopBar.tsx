@@ -1,9 +1,10 @@
 import {useNavigate} from "react-router";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
+    faBars,
     faCalendarCheck, faCheckCircle, faGears,
-    faGraduationCap, faPowerOff, faShareNodes,
-    faWarning
+    faGraduationCap, faLinesLeaning, faPowerOff, faShareNodes,
+    faWarning, faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {dateToElapsed} from "../tools/DateString";
 import {useEffect, useState} from "react";
@@ -11,14 +12,17 @@ import {getStudentData, getSyncStatus} from "../api/global.api";
 import StudentData from "../models/StudentData";
 import {vars} from "../api/api";
 
-function NavElement(props: { text: string, icon: any, link: string }) {
+function NavElement(props: { text: string, icon: any, link: string, close?: () => void }) {
     const navigate = useNavigate();
     const is_active = window.location.pathname.startsWith(props.link);
 
     return (
         <div
-            className={"flex flex-col rounded-2xl items-center h-11 justify-center cursor-pointer px-5 transition hover:bg-blue-800 hover:text-white " + (is_active ? "bg-blue-800 text-white font-bold" : "")}
-            onClick={() => navigate(props.link)}>
+            className={"flex flex-col rounded-2xl items-start h-11 justify-center cursor-pointer px-5 transition hover:bg-blue-800 hover:text-white " + (is_active ? "bg-blue-800 text-white font-bold" : "")}
+            onClick={() => {
+                navigate(props.link);
+                if (props.close) props.close();
+            }}>
             <div className={"flex flex-row items-center justify-center"}>
                 <div>
                     <FontAwesomeIcon icon={props.icon}/>
@@ -90,14 +94,14 @@ function UserComp() {
 
     if (user === null) return null;
 
-    return <div className={"flex flex-row h-full items-center shadow-lg px-3 rounded-2xl"}>
+    return <div className={"flex flex-row h-full items-center px-3 rounded-2xl"}>
         <img
             src={`${vars.backend_url}/api/global/picture/${user.login}`}
             alt={"Epitech"}
             className={"w-11 h-11 ml-1 shadow rounded-full object-cover"}
         />
         <div className={"flex flex-col ml-2 items-start justify-center w-fit"}>
-            <p className={"font-bold"}>{user?.name}</p>
+            <p className={"font-bold text-nowrap"}>{user?.name}</p>
             <SyncStatus/>
         </div>
 
@@ -137,41 +141,71 @@ function UserComp() {
     //    </div>
 }
 
-export default function TopBar(): React.ReactElement {
+function PhoneBar(props: { className: string, routes: { text: string, link: string, icon: any }[], close?: () => void }) {
     return (
-        <div
-            className={"flex flex-row justify-between h-20 items-center text-gray-700 py-2 overflow-x-auto scroll-container px-3"}>
-
-            <div className={"flex flex-row items-center"}>
-                <img
-                    className={"w-9 ml-1 shadow rounded-full"}
-                    src={require("../assets/tblogo.png")}
-                    alt={"TekBetter Logo"}
-                />
-                <p className={"ml-1 mr-2 font-bold"}>TekBetter</p>
-            </div>
-
-
-            <div className={"flex flex-row gap-0.5 rounded-2xl justify-start ml-2 shadow-lg"}>
-                <NavElement text={"Moulinettes"} link={"/moulinettes"} icon={faGraduationCap}/>
-                <NavElement text={"Modules"} link={"/modules"} icon={faShareNodes}/>
-                <NavElement text={"Calendar"} link={"/calendar"} icon={faCalendarCheck}/>
-                <NavElement text={"Synchronisation"} link={"/sync"} icon={faCheckCircle}/>
-                <NavElement text={"Settings"} link={"/settings"} icon={faGears}/>
-            </div>
-
-            <UserComp/>
-
-            {/*<div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>*/}
-            {/*    <img*/}
-            {/*        src={require("../assets/tblogo.png")}*/}
-            {/*        alt={"Epitech"}*/}
-            {/*        className={"w-9 ml-1 shadow rounded-full"}*/}
-            {/*    />*/}
-            {/*    <p className={"ml-1 mr-2 font-bold"}>Eliot Amanieu</p>*/}
-            {/*    <SyncStatus/>*/}
-            {/*</div>*/}
-
+        <div className={"flex flex-col gap-1 p-5 " + props.className}>
+            {props.routes.map((route) => <NavElement text={route.text} link={route.link} icon={route.icon} close={props.close} />)}
         </div>
+    );
+}
+
+
+export default function TopBar(): React.ReactElement {
+
+    const [phoneBarOpen, setPhoneBarOpen] = useState<boolean>(false);
+
+    const routes = [
+        {text: "Moulinettes", link: "/moulinettes", icon: faGraduationCap},
+        {text: "Modules", link: "/modules", icon: faShareNodes},
+        {text: "Calendar", link: "/calendar", icon: faCalendarCheck},
+        {text: "Synchronisation", link: "/sync", icon: faCheckCircle},
+        {text: "Settings", link: "/settings", icon: faGears}
+
+    ]
+
+    return (
+        <div>
+            <div
+                className={"flex flex-row justify-between min-h-20 items-center text-gray-700 py-2 overflow-x-auto scroll-container px-3"}>
+                <div className={"flex flex-row items-center"}>
+
+                    <div className={"lg:hidden flex flex-row items-center mr-1 hover:bg-gray-200 p-2 rounded-full cursor-pointer"}
+                            onClick={() => setPhoneBarOpen(!phoneBarOpen)}>
+                        <FontAwesomeIcon icon={phoneBarOpen ? faXmark : faBars} className={"text-2xl"}/>
+                    </div>
+
+
+                    <div className={"flex flex-row items-center"}>
+                        <img
+                            className={"w-9 ml-1 shadow rounded-full"}
+                            src={require("../assets/tblogo.png")}
+                            alt={"TekBetter Logo"}
+                        />
+                        <p className={"ml-1 mr-2 font-bold"}>TekBetter</p>
+                    </div>
+
+                </div>
+
+                <div className={"hidden lg:flex flex-row gap-0.5 rounded-2xl justify-start ml-2 shadow-lg"}>
+                    {routes.map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
+                </div>
+
+                <UserComp/>
+
+                {/*<div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>*/}
+                {/*    <img*/}
+                {/*        src={require("../assets/tblogo.png")}*/}
+                {/*        alt={"Epitech"}*/}
+                {/*        className={"w-9 ml-1 shadow rounded-full"}*/}
+                {/*    />*/}
+                {/*    <p className={"ml-1 mr-2 font-bold"}>Eliot Amanieu</p>*/}
+                {/*    <SyncStatus/>*/}
+                {/*</div>*/}
+
+            </div>
+
+            <PhoneBar className={phoneBarOpen ? "" : "hidden"} routes={routes} close={() => setPhoneBarOpen(false)}/>
+        </div>
+
     );
 }
