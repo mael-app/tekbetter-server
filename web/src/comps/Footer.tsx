@@ -7,19 +7,19 @@ export default function Footer(): React.ReactElement {
 
     const commit_hash = process.env.REACT_APP_COMMIT_HASH || "dev";
 
-    return <footer className={"flex flex-row justify-between bg-gray-800 text-white p-2"}>
+    return <footer className={"flex flex-row justify-between bg-gray-800 text p-2"}>
 
 
-            <div className={"flex flex-row items-center text-gray-400 cursor-pointer gap-0.5"} onClick={() => {
+            <div className={"flex flex-row items-center cursor-pointer gap-0.5"} onClick={() => {
                 window.open("https://github.com/EliotAmn/tekbetter-server", "_blank");
             }}>
                 <FontAwesomeIcon icon={faCodeBranch}/>
                 <p>
-                    {commit_hash}
+                    version: {commit_hash}
                 </p>
 
             </div>
-            <div className={"flex flex-row items-center text-gray-400 cursor-pointer gap-0.5"}>
+            <div className={"flex flex-row items-center cursor-pointer gap-0.5"}>
                 <a href="https://discord.gg/kSgKYgUUzc" target="_blank" rel="noreferrer">
                     Join our Discord
                 </a>
@@ -27,7 +27,7 @@ export default function Footer(): React.ReactElement {
             </div>
 
 
-        <p className={"text-center"}>
+        <p className={"text-center hidden sm:block"}>
             Made with ❤️ by Epitech students :)
         </p>
     </footer>
