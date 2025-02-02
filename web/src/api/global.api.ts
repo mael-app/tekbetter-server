@@ -40,7 +40,7 @@ export async function getSyncStatus(): Promise<{status: SyncStatusType, scraper_
     }
 
     vars.updateSyncStatus(status);
-    return {status: status, scraper_id};
+    return {status: status, scraper_id: scraper_id};
 }
 
 export async function getStudentData(id: string): Promise<StudentData> {
