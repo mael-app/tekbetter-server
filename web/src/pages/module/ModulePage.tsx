@@ -18,6 +18,31 @@ import getModules from "../../api/module.api";
 import LoadingComp from "../../comps/LoadingComp";
 import Button from "../../comps/Button";
 
+
+function GradeDisplay(props: { grade: string }) {
+
+    let grade = props.grade;
+
+    if (grade === "Echec")
+        grade = "E";
+
+
+    const colors: { [key: string]: string } = {
+        "A": "text-green-600",
+        "B": "text-green-300",
+        "C": "text-yellow-500",
+        "D": "text-orange-500",
+        "E": "text-red-500",
+    }
+
+    if (!Object.keys(colors).includes(grade))
+        return null;
+
+    return <div className={"rounded-full bg-white shadow w-5 h-5 flex flex-row items-center justify-center"} title={`Grade: ${props.grade}`}>
+        <p className={`${colors[grade]} font-bold text-xs select-none`}>{grade}</p>
+    </div>
+}
+
 function RoadBlock(props: {
     children: React.ReactNode,
     title: string,
@@ -99,10 +124,13 @@ function ModuleList(props: { modules: EpiModule[] }) {
 
 
             </div>
-            <div className={"flex flex-row items-center gap-2"}>
+            <div className={"flex flex-row items-center gap-2 px-2"}>
                 <FontAwesomeIcon icon={faUserGraduate}/>
                 <h2 className={(is_undernoted(m) ? "text-orange-300" : "") + " flex flex-row items-center gap-1"}>{m.student_credits}/{m.available_credits}
                     <span className={"hidden sm:block"}>credits</span></h2>
+                {
+                    m.student_grade !== null && <GradeDisplay grade={m.student_grade}/>
+                }
             </div>
         </div>
     ))
