@@ -22,7 +22,6 @@ from app.services.redis_service import RedisService
 
 _is_initialized = False
 
-
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
 
@@ -39,8 +38,8 @@ def init_services():
         log_error(str(e))
         exit(1)
 
-    # Connect to MongoDB
-    mongo_url = f"mongodb://{os.getenv('MONGO_HOST')}:{os.getenv('MONGO_PORT')}?directConnection=true"
+    # Connect to MongoDB with authentication
+    mongo_url = f"mongodb://{os.getenv('MONGO_USER')}:{os.getenv('MONGO_PASSWORD')}@{os.getenv('MONGO_HOST')}:{os.getenv('MONGO_PORT')}?directConnection=true&authSource={os.getenv('MONGO_DB')}"
     log_info("Connecting to MongoDB...")
     Globals.database = pymongo.MongoClient(mongo_url)[os.getenv('MONGO_DB')]
 

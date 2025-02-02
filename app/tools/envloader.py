@@ -10,6 +10,8 @@ default_values = {
     "MONGO_HOST": "mongo",
     "MONGO_PORT": "27017",
     "MONGO_DB": "tekbetter",
+    "MONGO_USER": "tekbetter",
+    "MONGO_PASSWORD": None,
     "REDIS_HOST": "redis",
     "REDIS_PORT": "6379",
     "REDIS_DB": "0",
