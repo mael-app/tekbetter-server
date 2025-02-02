@@ -22,8 +22,6 @@ their daily life.
 | MONGO_HOST           | The mongodb database hostname.                                             | mongo         |
 | MONGO_PORT           | The mongodb database port.                                                 | 27017         |
 | MONGO_DB             | The mongodb database name.                                                 | tekbetter     |
-| MONGO_USER           | The mongodb database user.                                                 | tekbetter     |
-| MONGO_PASSWORD       | The mongodb database password.                                             |               |
 | REDIS_HOST           | The redis database hostname.                                               | redis         |
 | REDIS_PORT           | The redis database port.                                                   | 6379          |
 | REDIS_PASSWORD       | The redis database password.                                               |               |
@@ -69,8 +67,6 @@ APP_URL=http://localhost:8080
 JWT_SECRET=my_jwt_secret
 AES_KEY=a9421fce83c42eeab1a958c24b516943ccda3e2c4cf6ee3ada4cc78315d228d2
 MONGO_HOST=localhost
-MONGO_USER=tekbetter
-MONGO_PASSWORD=123456
 REDIS_HOST=localhost
 REDIS_PASSWORD=123456
 SCRAPERS_CONFIG_FILE=scrapers.json
