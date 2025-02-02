@@ -69,7 +69,7 @@ AES_KEY=a9421fce83c42eeab1a958c24b516943ccda3e2c4cf6ee3ada4cc78315d228d2
 MONGO_HOST=localhost
 REDIS_HOST=localhost
 REDIS_PASSWORD=123456
-SCRAPERS_CONFIG_FILE=scrapers.json
+DATA_PATH=./data
 
 ENABLE_MAILER=false
 ```
@@ -80,7 +80,7 @@ Please check that you have `npm` and a recent version of `node` installed on you
 Navigate to the `web/` directory and run the following commands :
 
 ```bash
-npm install
+npm install -f
 npm start
 ```
 
@@ -96,7 +96,7 @@ PYTHONPATH=$(pwd) python3 app/main.py
 
 #### Happy coding !
 
-## How to configure internal scrapers
+## How to configure internal (public) scrapers
 
 An internal scraper is a scraper that will be controlled by the backend.
 To configure a scraper, you need to create a `scrapers.json` file in the root directory of the project.

@@ -11,7 +11,7 @@ services:
     image: redis:latest
     container_name: redis
     environment:
-      REDIS_PASSWORD: azerty
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     ports:
       - "6379:6379"
     command: [ "redis-server", "--requirepass", "${REDIS_PASSWORD}" ]
