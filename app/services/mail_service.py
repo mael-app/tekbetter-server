@@ -1,8 +1,11 @@
 import os
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 from mailersend import emails
-
+import yagmail
 from app.tools.teklogger import log_debug, log_error, log_info, log_success
+import smtplib
 
 
 class MailService:
@@ -19,29 +22,20 @@ class MailService:
         log_info(f"Sending mail to {recipient}")
 
         try:
-            mailer = emails.NewEmail(os.getenv("MAILERSEND_API_KEY"))
-
-            mail_body = {}
-
-            mail_from = {
-                "name": "TekBetter Dashboard",
-                "email": os.getenv("MAILERSEND_FROM_EMAIL"),
-            }
-
-            recipients = [
-                {
-                    "email": recipient,
-                }
-            ]
-
-            mailer.set_mail_from(mail_from, mail_body)
-            mailer.set_mail_to(recipients, mail_body)
-            mailer.set_subject(subject, mail_body)
-            mailer.set_plaintext_content(body, mail_body)
-
-            response = mailer.send(mail_body)
-            log_debug(response)
+            smtp_server = os.getenv('SMTP_SERVER')
+            smtp_port = int(os.getenv('SMTP_PORT'))
+            smtp_user = os.getenv('SMTP_USER')
+            smtp_password = os.getenv('SMTP_PASSWORD')
+            yag = yagmail.SMTP(user=smtp_user, password=smtp_password, host=smtp_server, port=smtp_port)
+            html_content = f"""
+            <html>
+                <body>
+                    <h2>{subject}</h2>
+                    <p>{body}</p>
+                </body>
+            </html>
+            """
+            yag.send(to=recipient, subject=subject, contents=html_content)
             log_success(f"Mail sent to {recipient}")
-
         except Exception as e:
             log_error(f"Failed to send mail to {recipient}: {e}")

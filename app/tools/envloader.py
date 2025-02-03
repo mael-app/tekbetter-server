@@ -19,8 +19,6 @@ default_values = {
     "AES_KEY": None,
     "DATA_PATH": "./data",
     "ENABLE_MAILER": "false",
-    "MAILERSEND_API_KEY": "",
-    "MAILERSEND_FROM_EMAIL": ""
 }
 
 
@@ -44,7 +42,7 @@ def load_env():
     log_debug("Loading environment variables")
     load_dotenv()
 
-    smtp_vars = ["MAILERSEND_API_KEY", "MAILERSEND_FROM_EMAIL"]
+    smtp_vars = ["SMTP_SERVER", "SMTP_PORT", "SMTP_USER", "SMTP_PASSWORD"]
     if os.getenv("ENABLE_MAILER") == "true":
         for var in smtp_vars:
             if os.getenv(var) is None:
