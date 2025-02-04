@@ -20,7 +20,7 @@ def fill_student_from_intra(intra_json: dict, student: Student):
     student.promo_year = int(intra_json["promo"])
     student.last_update = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if "location" in intra_json:
-        if "\/" in intra_json["location"]:
-            intra_json["location"] = intra_json["location"].split("\/")[1]
+        if "/" in intra_json["location"]:
+            intra_json["location"] = intra_json["location"].split("Z/")[1]
         student.city = intra_json["location"]
     return student
