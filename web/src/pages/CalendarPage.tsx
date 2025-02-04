@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import WindowElem, {BasicBox} from "../comps/WindowElem";
 import {getCalendarToken} from "../api/calendar.api";
 import LoadingComp from "../comps/LoadingComp";
+import NoSyncComp from "../comps/NoSyncComp";
 
 function CopyUrl(props: { cal_name: string, token: string }) {
 
@@ -43,6 +44,7 @@ export default function CalendarPage(): React.ReactElement {
     return (
         <WindowElem title={<h1 className={"text-2xl"}>iCal export for your epitech calendar</h1>}>
             <div className={"p-3"}>
+                 <NoSyncComp/>
                 <h2 className={"font-bold"}>How it works ?</h2>
                 <p>You can export your Epitech intra calendar with the iCal format. You have 3 available calendars
                     format:</p>
