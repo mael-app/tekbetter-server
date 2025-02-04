@@ -55,7 +55,7 @@ def load_global_routes(app):
         return {
             "login": stud.login,
             "id": stud.id,
-            "name": f"{stud.first_name} {stud.last_name}",
+            "name": f"{stud.first_name} {stud.last_name}" if stud.first_name and stud.last_name else None,
         }
 
     @app.route("/api/global/picture/<string:student_login>", methods=["GET"])

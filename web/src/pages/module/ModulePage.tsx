@@ -17,6 +17,7 @@ import {EpiModule} from "../../models/Module";
 import getModules from "../../api/module.api";
 import LoadingComp from "../../comps/LoadingComp";
 import Button from "../../comps/Button";
+import NoSyncComp from "../../comps/NoSyncComp";
 
 
 function GradeDisplay(props: { grade: string }) {
@@ -203,6 +204,7 @@ export default function ModulePage(): React.ReactElement {
             .filter((m) => !m.is_failed())
             .forEach((m) => available_credits += m.student_credits > 0 ? m.student_credits : m.available_credits)
 
+
         return (
             <div key={roadblock.module_code}>
                 <RoadBlock
@@ -241,6 +243,9 @@ export default function ModulePage(): React.ReactElement {
 
 
     const available_years = api_data.modules.map((m) => m.school_year).filter((v, i, a) => a.indexOf(v) === i).sort((a, b) => a > b ? 1 : -11);
+
+    if (available_years.length === 0)
+        return <NoSyncComp/>
 
     return (
         <div className={"flex flex-col flex-wrap gap-4 p-3"}>
