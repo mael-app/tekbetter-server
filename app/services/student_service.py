@@ -90,22 +90,26 @@ class StudentService:
             # Already sent a reset password email, wait 5 minutes
             return
         password = ''.join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))
-        print(password)
         RedisService.set(redis_key, password, 60 * 5)  # Expires in 5 minutes
-        subject = "Reset Your TekBetter Password"
-        body = f"""\
-        Hello you,
-        
-        It seems you have requested a password reset for your TekBetter account. To reset your password please enter this password for the next 5 minutes:
-        {password}
-        
-        After you have logged in, this password will erase your last password.
-        If you did not request this password reset, you can safely ignore this email.
-        
-        Best regards,
-        The TekBetter Team
-        """
-        MailService.send_mail(email, subject, body)
+
+        if os.getenv("ENABLE_MAILER") == "true":
+            subject = "Reset Your TekBetter Password"
+            body = f"""\
+            Hello you,
+            
+            It seems you have requested a password reset for your TekBetter account. To reset your password please enter this password for the next 5 minutes:
+            {password}
+            
+            After you have logged in, this password will erase your last password.
+            If you did not request this password reset, you can safely ignore this email.
+            
+            Best regards,
+            The TekBetter Team
+            """
+            MailService.send_mail(email, subject, body)
+        else:
+            log_warning(
+                f"Mailer is disabled, not sending email. This is the new password for {email}: {password}")
 
     @staticmethod
     def create_register_ticket(email: str):
