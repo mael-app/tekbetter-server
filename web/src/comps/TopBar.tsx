@@ -89,6 +89,8 @@ function UserComp() {
 
     if (user === null) return null;
 
+    const user_name = user.name === null ? "New user" : user.name;
+
     return <div className={"flex flex-row h-full items-center px-3 rounded-2xl"}>
         <img
             src={`${vars.backend_url}/api/global/picture/${user.login}`}
@@ -96,8 +98,8 @@ function UserComp() {
             className={"w-10 h-10 ml-1 shadow rounded-full object-cover"}
         />
         <div className={"flex flex-col ml-2 items-start justify-center w-fit"}>
-            <p className={"font-bold text-nowrap hidden xl:block"}>{user?.name}</p>
-            <p className={"font-bold text-nowrap xl:hidden"}>{user?.name.split(" ")[0]}</p>
+            <p className={"font-bold text-nowrap hidden xl:block"}>{user_name}</p>
+            <p className={"font-bold text-nowrap xl:hidden"}>{user_name}</p>
 
             <GlobalSyncStatus className={"hidden sm:flex"}/>
         </div>
