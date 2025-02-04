@@ -8,6 +8,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import GithubLogo from "../assets/githublogo.svg";
 import {getLoginStatus, isValidTicket, loginWithPassword, registerWithTicket, resetPassword} from "../api/auth.api";
+import {getStudentData} from "../api/global.api";
+import {useNavigate} from "react-router";
 
 
 function AuthButton(props: { text: string, icon: any, onClick: () => Promise<any>, disabled?: boolean }) {
@@ -53,12 +55,21 @@ export default function AuthPage(): React.ReactElement {
         return reg.test(register_password.password);
     }
 
+    const navigate = useNavigate();
+
+
     useEffect(() => {
         if (page === "create_password") {
             isValidTicket(register_ticket!).then((res) => {
                 setIsTicketValid(res);
             });
         }
+
+        getStudentData("myself")
+            .then((d) => {
+                // The user has an active session, redirect to home
+                navigate("/")
+            }).catch(() => {});
     }, []);
 
     const btnCreateAccount = async () => {

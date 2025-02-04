@@ -52,6 +52,9 @@ export async function getStudentData(id: string): Promise<StudentData> {
     }
 
     const res = await api.get(`/student/${id}`);
+    if (res.data === null) {
+        throw new Error("Student not found");
+    }
     const student = new StudentData(res.data);
     vars.studentsCache.push(student);
     return student;
