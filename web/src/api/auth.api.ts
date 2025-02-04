@@ -37,6 +37,14 @@ export async function resetPassword(email: string): Promise<boolean> {
     return res.status === 200;
 }
 
+export async function changePasswordRequest(oldPassword: string, newPassword: string): Promise<boolean> {
+    const res = await api.post(`/auth/change`, {
+        oldPassword: oldPassword,
+        newPassword: newPassword
+    });
+    return res.status === 200;
+}
+
 export async function registerWithTicket(ticket: string, password: string): Promise<boolean> {
     const res = await api.post(`/auth/register`, {
         ticket: ticket,

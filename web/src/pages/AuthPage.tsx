@@ -96,6 +96,7 @@ export default function AuthPage(): React.ReactElement {
             alert("Reset failed. Please check your email address.");
             return;
         }
+        setPage("register");
     }
 
 
