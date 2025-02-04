@@ -170,6 +170,10 @@ export default function TopBar(): React.ReactElement {
 
     ]
 
+    // If we are on the /auth page, we don't want to display navigation items
+
+    const show_nav = !window.location.pathname.startsWith("/auth");
+
     return (
         <div>
             <div
@@ -195,21 +199,12 @@ export default function TopBar(): React.ReactElement {
                 </div>
 
                 <div className={"hidden lg:flex flex-row gap-0.5 rounded-2xl justify-start ml-2 shadow-lg"}>
-                    {routes.map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
+                    {routes
+                        .filter(route => show_nav)
+                        .map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
                 </div>
 
                 <UserComp/>
-
-                {/*<div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>*/}
-                {/*    <img*/}
-                {/*        src={require("../assets/tblogo.png")}*/}
-                {/*        alt={"Epitech"}*/}
-                {/*        className={"w-9 ml-1 shadow rounded-full"}*/}
-                {/*    />*/}
-                {/*    <p className={"ml-1 mr-2 font-bold"}>Eliot Amanieu</p>*/}
-                {/*    <SyncStatus/>*/}
-                {/*</div>*/}
-
             </div>
 
             <PhoneBar className={phoneBarOpen ? "" : "hidden"} routes={routes} close={() => setPhoneBarOpen(false)}/>
