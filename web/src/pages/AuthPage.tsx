@@ -7,7 +7,7 @@ import {
     faWarning, faXmarkCircle
 } from "@fortawesome/free-solid-svg-icons";
 import GithubLogo from "../assets/githublogo.svg";
-import {getLoginStatus, isValidTicket, loginWithPassword, registerWithTicket} from "../api/auth.api";
+import {getLoginStatus, isValidTicket, loginWithPassword, registerWithTicket, resetPassword} from "../api/auth.api";
 
 
 function AuthButton(props: { text: string, icon: any, onClick: () => Promise<any>, disabled?: boolean }) {
@@ -45,7 +45,7 @@ export default function AuthPage(): React.ReactElement {
         confirm: ""
     } as { password: string, confirm: string });
 
-    const [page, setPage] = React.useState<"email" | "password" | "register" | "create_password">(register_ticket ? "create_password" : "email");
+    const [page, setPage] = React.useState<"email" | "password" | "register" | "create_password" | "reset">(register_ticket ? "create_password" : "email");
 
     const is_valid_password = () => {
         // min 8 characters, 1 uppercase, 1 lowercase, 1 number
@@ -90,6 +90,13 @@ export default function AuthPage(): React.ReactElement {
         }
     }
 
+    const btnResetPassword = async () => {
+        const status = await resetPassword(login_email);
+        if (!status) {
+            alert("Reset failed. Please check your email address.");
+            return;
+        }
+    }
 
 
     return (
@@ -120,7 +127,34 @@ export default function AuthPage(): React.ReactElement {
                                    value={login_email}
                                    autoComplete="email"
                                    onChange={(e) => setLoginEmail(e.target.value)}
-                                      onKeyPress={async (e) => {if (e.key === "Enter") await btnValidateEmail()}}
+                                   onKeyPress={async (e) => {
+                                       if (e.key === "Enter") await btnValidateEmail()
+                                   }}
+                            />
+                        </div>
+
+                        <AuthButton icon={faArrowRight} text={"Continue"} onClick={btnValidateEmail}/>
+                    </>
+                }
+                {
+                    page === "reset" && <>
+                        <div className={"mb-2"}>
+                                <h1 className={"font-bold text-center text-red-600"}>
+                                   Reset your tekbetter password
+                                </h1>
+                            <p className={"max-w-96 text-gray-400 my-2 italic text-xs"}>
+                                If you have forgotten your TekBetter password, you can reset it by receiving a confirmation email.
+                            </p>
+
+                            <label className={"block"}>Epitech email:</label>
+                            <input type={"email"} placeholder={"imanoob@epitech.eu"}
+                                   className={"w-full p-2 border border-gray-300 rounded"}
+                                   value={login_email}
+                                   autoComplete="email"
+                                   onChange={(e) => setLoginEmail(e.target.value)}
+                                   onKeyPress={async (e) => {
+                                       if (e.key === "Enter") await btnResetPassword()
+                                   }}
                             />
                         </div>
 
@@ -137,7 +171,9 @@ export default function AuthPage(): React.ReactElement {
                                    value={login_password}
                                    autoComplete="current-password"
                                    onChange={(e) => setLoginPassword(e.target.value)}
-                                      onKeyPress={async (e) => {if (e.key === "Enter") await btnLoginPassword()}}
+                                   onKeyPress={async (e) => {
+                                       if (e.key === "Enter") await btnLoginPassword()
+                                   }}
                             />
                         </div>
 
@@ -178,7 +214,9 @@ export default function AuthPage(): React.ReactElement {
                                                ...register_password,
                                                password: e.target.value
                                            })}
-                                           onKeyPress={async (e) => {if (e.key === "Enter") await btnCreateAccount()}}
+                                           onKeyPress={async (e) => {
+                                               if (e.key === "Enter") await btnCreateAccount()
+                                           }}
                                     />
                                     <p className={"text-gray-400 text-sm italic"}>
                                         Passwords must be at least 8 characters long and contain at least one uppercase
@@ -197,7 +235,9 @@ export default function AuthPage(): React.ReactElement {
                                                ...register_password,
                                                confirm: e.target.value
                                            })}
-                                           onKeyPress={async (e) => {if (e.key === "Enter") await btnCreateAccount()}}
+                                           onKeyPress={async (e) => {
+                                               if (e.key === "Enter") await btnCreateAccount()
+                                           }}
                                     />
                                     {
                                         register_password.password !== register_password.confirm &&
@@ -226,13 +266,26 @@ export default function AuthPage(): React.ReactElement {
                     </>
                 }
 
+                <div className={"flex flex-row items-center justify-between mt-2"}>
 
-                <div className={"flex-row flex items-center gap-1 hover:bg-gray-100 w-min px-1 mt-3 rounded-2xl cursor-pointer"} onClick={() => window.open("https://github.com/EliotAmn/tekbetter-server", "_blank")}>
-                    <div className={"w-6"}>
-                        <GithubLogo/>
+
+                    <div
+                        className={"flex-row flex items-center gap-1 hover:bg-gray-100 w-min px-1 rounded-2xl cursor-pointer"}
+                        onClick={() => window.open("https://github.com/EliotAmn/tekbetter-server", "_blank")}>
+                        <div className={"w-6"}>
+                            <GithubLogo/>
+                        </div>
+                        <p className={"text-nowrap"}>Source code</p>
                     </div>
-                    <p className={"text-nowrap"}>Source code</p>
+
+                    <div>
+                        {
+                            page === "email" &&  <p onClick={() => setPage("reset")} className={"text-nowrap text-blue-400 hover:text-blue-600 cursor-pointer"}>Forgot password?</p>
+                        }
+
+                    </div>
                 </div>
+
             </div>
 
         </div>

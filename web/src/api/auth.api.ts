@@ -30,6 +30,13 @@ export async function loginWithPassword(email: string, password: string): Promis
     return res.status === 200;
 }
 
+export async function resetPassword(email: string): Promise<boolean> {
+    const res = await api.post(`/auth/reset`, {
+        email: email
+    });
+    return res.status === 200;
+}
+
 export async function registerWithTicket(ticket: string, password: string): Promise<boolean> {
     const res = await api.post(`/auth/register`, {
         ticket: ticket,

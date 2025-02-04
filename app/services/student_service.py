@@ -25,7 +25,8 @@ class StudentService:
 
     @staticmethod
     def filter_share_consent(student_ids: [str]) -> [str]:
-        students = Globals.database["students"].find({"_id": {"$in": [str(sid) for sid in student_ids]}, "is_consent_share": True})
+        students = Globals.database["students"].find(
+            {"_id": {"$in": [str(sid) for sid in student_ids]}, "is_consent_share": True})
 
         return [student["_id"] for student in students if student]
 
@@ -77,6 +78,34 @@ class StudentService:
         student.scraper_token = f"{student.login.split('@')[0]}_{token}"
         StudentService.update_student(student)
         return student.scraper_token
+
+    @staticmethod
+    def send_reset_password_email(email: str):
+        student = StudentService.get_student_by_login(email)
+        if not student:
+            return
+
+        redis_key = f"reset_password:{student.id}"
+        if RedisService.get(redis_key):
+            # Already sent a reset password email, wait 5 minutes
+            return
+        password = ''.join(random.choices(string.ascii_letters + string.digits + string.punctuation, k=15))
+        print(password)
+        RedisService.set(redis_key, password, 60 * 5)  # Expires in 5 minutes
+        subject = "Reset Your TekBetter Password"
+        body = f"""\
+        Hello you,
+        
+        It seems you have requested a password reset for your TekBetter account. To reset your password please enter this password for the next 5 minutes:
+        {password}
+        
+        After you have logged in, this password will erase your last password.
+        If you did not request this password reset, you can safely ignore this email.
+        
+        Best regards,
+        The TekBetter Team
+        """
+        MailService.send_mail(email, subject, body)
 
     @staticmethod
     def create_register_ticket(email: str):
