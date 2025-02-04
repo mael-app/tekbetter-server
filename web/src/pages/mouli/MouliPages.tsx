@@ -14,6 +14,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faCheck, faChevronLeft, faWarning} from "@fortawesome/free-solid-svg-icons";
 import LoadingComp from "../../comps/LoadingComp";
 import MouliProjectSelector from "./MouliProjectSelector";
+import NoSyncComp from "../../comps/NoSyncComp";
 
 
 export default function MouliPage(): React.ReactElement {
@@ -81,8 +82,13 @@ export default function MouliPage(): React.ReactElement {
                 height: "calc(100vh - 130px)",
             }}>
 
-                <MouliProjectSelector projects={projects} reload_projects={reload_projects} current_project={project_slug}/>
+                <MouliProjectSelector projects={projects} reload_projects={reload_projects}
+                                      current_project={project_slug}/>
 
+
+                {
+                    (projects.length === 0) ? <NoSyncComp/> : null
+                }
                 {
                     project_slug == null ? null :
                         <div className={"overflow-y-auto flex-grow"}>

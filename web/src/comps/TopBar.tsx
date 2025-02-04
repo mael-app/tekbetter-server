@@ -89,6 +89,8 @@ function UserComp() {
 
     if (user === null) return null;
 
+    const user_name = user.name === null ? "New user" : user.name;
+
     return <div className={"flex flex-row h-full items-center px-3 rounded-2xl"}>
         <img
             src={`${vars.backend_url}/api/global/picture/${user.login}`}
@@ -96,8 +98,8 @@ function UserComp() {
             className={"w-10 h-10 ml-1 shadow rounded-full object-cover"}
         />
         <div className={"flex flex-col ml-2 items-start justify-center w-fit"}>
-            <p className={"font-bold text-nowrap hidden xl:block"}>{user?.name}</p>
-            <p className={"font-bold text-nowrap xl:hidden"}>{user?.name.split(" ")[0]}</p>
+            <p className={"font-bold text-nowrap hidden xl:block"}>{user_name}</p>
+            <p className={"font-bold text-nowrap xl:hidden"}>{user_name}</p>
 
             <GlobalSyncStatus className={"hidden sm:flex"}/>
         </div>
@@ -168,6 +170,10 @@ export default function TopBar(): React.ReactElement {
 
     ]
 
+    // If we are on the /auth page, we don't want to display navigation items
+
+    const show_nav = !window.location.pathname.startsWith("/auth");
+
     return (
         <div>
             <div
@@ -193,21 +199,12 @@ export default function TopBar(): React.ReactElement {
                 </div>
 
                 <div className={"hidden lg:flex flex-row gap-0.5 rounded-2xl justify-start ml-2 shadow-lg"}>
-                    {routes.map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
+                    {routes
+                        .filter(route => show_nav)
+                        .map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
                 </div>
 
                 <UserComp/>
-
-                {/*<div className={"flex flex-row items-center mr-8 shadow-lg p-3 rounded-2xl"}>*/}
-                {/*    <img*/}
-                {/*        src={require("../assets/tblogo.png")}*/}
-                {/*        alt={"Epitech"}*/}
-                {/*        className={"w-9 ml-1 shadow rounded-full"}*/}
-                {/*    />*/}
-                {/*    <p className={"ml-1 mr-2 font-bold"}>Eliot Amanieu</p>*/}
-                {/*    <SyncStatus/>*/}
-                {/*</div>*/}
-
             </div>
 
             <PhoneBar className={phoneBarOpen ? "" : "hidden"} routes={routes} close={() => setPhoneBarOpen(false)}/>
