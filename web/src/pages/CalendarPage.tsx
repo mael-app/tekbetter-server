@@ -44,7 +44,7 @@ export default function CalendarPage(): React.ReactElement {
     return (
         <WindowElem title={<h1 className={"text-2xl"}>iCal export for your epitech calendar</h1>}>
             <div className={"p-3"}>
-                 <NoSyncComp/>
+                 {/*<NoSyncComp/>*/}
                 <h2 className={"font-bold"}>How it works ?</h2>
                 <p>You can export your Epitech intra calendar with the iCal format. You have 3 available calendars
                     format:</p>
