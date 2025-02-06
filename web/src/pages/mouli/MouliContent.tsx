@@ -48,7 +48,7 @@ function TraceWindow(props: { content: string, close: () => void }) {
                     }}>
                         <code className={"text-xs"}>
                             {props.content.split("\n").map((line, index) => (
-                                <div className={"text-gray-300 text-sm"} key={index}>{line}</div>
+                                <div className={"text-gray-300 text-sm min-h-4"} key={index}>{line}</div>
                             ))}
                         </code>
                     </div>
@@ -65,6 +65,13 @@ function TraceWindow(props: { content: string, close: () => void }) {
 }
 
 function TextComparePopup(props: { instance: MouliGotExpected, close: () => void }) {
+
+    const got = props.instance.got.split('\n').map((line, index) => {
+        return `\r${line}`
+    })
+    const expected = props.instance.expected.split('\n').map((line, index) => {
+        return `\r${line}`
+    })
 
     return (
         <div>
@@ -87,8 +94,8 @@ function TextComparePopup(props: { instance: MouliGotExpected, close: () => void
                             leftTitle={"Got"}
                             showDiffOnly={false}
                             rightTitle={"Expected"}
-                            oldValue={props.instance.got}
-                            newValue={props.instance.expected}
+                            oldValue={got.join('\n')}
+                            newValue={expected.join('\n')}
                             splitView={true}
 
                             styles={{
