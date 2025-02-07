@@ -3,30 +3,16 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faArrowRight, faArrowsSpin,
     faCheckCircle,
-    faSpinner,
     faWarning, faXmarkCircle
 } from "@fortawesome/free-solid-svg-icons";
 import GithubLogo from "../assets/githublogo.svg";
 import {getLoginStatus, isValidTicket, loginWithPassword, registerWithTicket, resetPassword} from "../api/auth.api";
 import {getStudentData} from "../api/global.api";
 import {useNavigate} from "react-router";
+import AuthButton from "../comps/AsyncButton";
 
 
-function AuthButton(props: { text: string, icon: any, onClick: () => Promise<any>, disabled?: boolean }) {
-    const [loading, setLoading] = React.useState<boolean>(false);
 
-    return <div
-        className={"flex flex-row items-center gap-2"}
-        onClick={() => {
-            props.onClick().finally(() => setLoading(false));
-        }}>
-        <div
-            className={"flex flex-row items-center gap-2 w-full justify-center text-white p-2 rounded " + (props.disabled ? "cursor-not-allowed hover:bg-gray-500 bg-gray-400" : "bg-blue-500 cursor-pointer hover:bg-blue-600")}>
-            <FontAwesomeIcon icon={loading ? faSpinner : props.icon} spin={loading}/>
-            <p>{props.text}</p>
-        </div>
-    </div>
-}
 
 export default function AuthPage(): React.ReactElement {
 
