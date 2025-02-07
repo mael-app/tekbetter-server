@@ -7,7 +7,6 @@ import {
     faBrain,
     faCalendarCheck,
     faCheckCircle,
-    faBitcoinSign,
     faHammer, faHourglass,
     faMinusCircle, faPlus, faQuestionCircle,
     faUserGraduate,
@@ -26,6 +25,8 @@ function GradeDisplay(props: { grade: string }) {
 
     if (grade === "Echec")
         grade = "E";
+    if (grade === "Acquis")
+        grade = "✓";
 
 
     const colors: { [key: string]: string } = {
@@ -34,6 +35,7 @@ function GradeDisplay(props: { grade: string }) {
         "C": "text-yellow-500",
         "D": "text-orange-500",
         "E": "text-red-500",
+        "✓": "text-green-600"
     }
 
     if (!Object.keys(colors).includes(grade))
