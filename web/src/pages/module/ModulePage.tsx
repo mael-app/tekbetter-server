@@ -7,8 +7,8 @@ import {
     faBrain,
     faCalendarCheck,
     faCheckCircle,
-    faHammer, faHeartbeat, faHourglass,
-    faMinusCircle, faPlus, faPlusCircle, faQuestionCircle,
+    faHammer, faHourglass,
+    faMinusCircle, faPlus, faQuestionCircle,
     faUserGraduate,
     faWarning, faXmarkCircle
 } from "@fortawesome/free-solid-svg-icons";
@@ -201,7 +201,6 @@ export default function ModulePage(): React.ReactElement {
         return <LoadingComp/>;
 
     const prev_year_credits = 60 * (api_data?.current_year_id! - 1);
-    const current_credits = api_data?.credits;
     const strategy_credits = getStrategyCredits();
     const required_credits = api_data?.required_credits;
 
