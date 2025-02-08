@@ -7,8 +7,8 @@ import {
     faBrain,
     faCalendarCheck,
     faCheckCircle,
-    faHammer, faHourglass,
-    faMinusCircle, faPlus, faQuestionCircle,
+    faHammer, faHeartbeat, faHourglass,
+    faMinusCircle, faPlus, faPlusCircle, faQuestionCircle,
     faUserGraduate,
     faWarning, faXmarkCircle
 } from "@fortawesome/free-solid-svg-icons";
@@ -259,6 +259,8 @@ export default function ModulePage(): React.ReactElement {
     if (available_years.length === 0)
         return <NoSyncComp/>
 
+    const secure_credits = prev_year_credits + strategy_credits - required_credits;
+
     return (
         <div className={"flex flex-col flex-wrap gap-4 p-3"}>
 
@@ -288,17 +290,31 @@ export default function ModulePage(): React.ReactElement {
                 </TopCard>
 
                 <TopCard title={"Your strategy"} icon={faBrain}
-                         isOk={prev_year_credits + strategy_credits >= required_credits}>
+                         isOk={secure_credits >= 0}>
                     <p className={"italic text-xs text"}>To validate your year</p>
-                    <div className={"flex flex-row items-center gap-2 text-2xl"}>
-                        <div className={"w-6 h-6"}>
-                            <EpiCoinFilled/>
+                    <div className={"flex flex-row justify-between gap-2 text-2xl"}>
+
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <div className={"w-6 h-6"}>
+                                <EpiCoinFilled/>
+                            </div>
+                            <div className={"flex text flex-row items-baseline"}>
+                                <p className={"font-bold"}>{prev_year_credits + strategy_credits}</p>
+                                <p className={"text-xs"}>/{required_credits} required</p>
+                            </div>
                         </div>
-                        <div className={"flex text flex-row items-baseline"}>
-                            <p className={"font-bold"}>{prev_year_credits + strategy_credits}</p>
-                            <p className={"text-xs"}>/{required_credits} required</p>
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <div className={"w-6 h-6"}>
+                                <EpiCoinFilled/>
+                            </div>
+                            <div className={"flex text flex-row items-baseline gap-1"}>
+                                <p className={"font-bold " + (secure_credits >= 0 ? "text-green-500" : "text-red-500")}>{secure_credits >= 0 && "+"}{secure_credits}</p>
+                                <p className={"text-xs"}>{secure_credits >= 0 ? "security" : "missing"}</p>
+                            </div>
                         </div>
+
                     </div>
+
                 </TopCard>
 
                 <TopCard title={"Missing credits"} icon={faHourglass}
