@@ -197,6 +197,15 @@ export default function ModulePage(): React.ReactElement {
         return available_credits;
     }
 
+    if (api_data === null || year_modules === undefined)
+        return <LoadingComp/>;
+
+    const prev_year_credits = 60 * (api_data?.current_year_id! - 1);
+    const current_credits = api_data?.credits;
+    const strategy_credits = getStrategyCredits();
+    const required_credits = api_data?.required_credits;
+
+
     const generateRoadBlock = (roadblock: EpiModule) => {
 
 
@@ -229,10 +238,6 @@ export default function ModulePage(): React.ReactElement {
             </div>
         )
     }
-
-
-    if (api_data === null || year_modules === undefined)
-        return <LoadingComp/>;
 
     let roadblock_modules: string[] = [];
     year_modules.forEach((m) => {
@@ -283,15 +288,15 @@ export default function ModulePage(): React.ReactElement {
                 </TopCard>
 
                 <TopCard title={"Your strategy"} icon={faBrain}
-                         isOk={api_data.credits + getStrategyCredits() >= api_data.required_credits}>
+                         isOk={prev_year_credits + strategy_credits >= required_credits}>
                     <p className={"italic text-xs text"}>To validate your year</p>
                     <div className={"flex flex-row items-center gap-2 text-2xl"}>
                         <div className={"w-6 h-6"}>
                             <EpiCoinFilled/>
                         </div>
                         <div className={"flex text flex-row items-baseline"}>
-                            <p className={"font-bold"}>{api_data.credits + getStrategyCredits()}</p>
-                            <p className={"text-xs"}>/{api_data.required_credits} required</p>
+                            <p className={"font-bold"}>{prev_year_credits + strategy_credits}</p>
+                            <p className={"text-xs"}>/{required_credits} required</p>
                         </div>
                     </div>
                 </TopCard>
