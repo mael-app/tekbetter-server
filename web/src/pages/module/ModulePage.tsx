@@ -41,7 +41,8 @@ function GradeDisplay(props: { grade: string }) {
     if (!Object.keys(colors).includes(grade))
         return null;
 
-    return <div className={"rounded-full bg-white shadow w-5 h-5 flex flex-row items-center justify-center"} title={`Grade: ${props.grade}`}>
+    return <div className={"rounded-full bg-white shadow w-5 h-5 flex flex-row items-center justify-center"}
+                title={`Grade: ${props.grade}`}>
         <p className={`${colors[grade]} font-bold text-xs select-none`}>{grade}</p>
     </div>
 }
@@ -179,7 +180,7 @@ export default function ModulePage(): React.ReactElement {
     useEffect(() => {
         getModules().then((data) => {
             setApiData(data);
-            setSelectedYear(2024)//data.current_year);
+            setSelectedYear(data.current_year);
         })
     }, []);
 
@@ -188,7 +189,11 @@ export default function ModulePage(): React.ReactElement {
         year_modules!
             .filter((m) => m.student_registered)
             .filter((m) => !m.is_failed())
-            .forEach((m) => available_credits += m.student_credits > 0 ? m.student_credits : m.available_credits)
+            .forEach((m) => {
+                const to_add = (m.student_grade === "N/A" ? m.available_credits : m.student_credits);
+                available_credits += to_add;
+            })
+
         return available_credits;
     }
 
