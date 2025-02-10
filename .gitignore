@@ -7,3 +7,5 @@
 /scrapers-config.json
 /scrapers.json
 /.venv/
+/data/scrapers.json
+/data/student_pictures/
