@@ -19,7 +19,6 @@ export default function extractGotExpected(mouli_trace: string): MouliGotExpecte
             continue;
         if (!gots[i].split(expected_tag)[1].includes(expected_end_tag))
             continue;
-        console.log(gots[i])
 
         const got = gots[i].split(expected_tag)[0];
         const expected = gots[i].split(expected_tag)[1].split(expected_end_tag)[0];
