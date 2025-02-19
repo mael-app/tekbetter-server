@@ -57,6 +57,8 @@ class PlanningService:
         current_code_actis = [event.code_acti for event in current_events]
 
         for event in events:
+            if event is None:
+                continue
             event.fetch_date = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             if event.code_acti in current_code_actis:
                 curr = [ev for ev in current_events if
