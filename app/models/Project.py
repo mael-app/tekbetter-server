@@ -39,7 +39,7 @@ class Project:
         self.scolar_year = mongo_data.get("scolar_year", None)
         self.code_instance = mongo_data.get("code_instance", None)
         self.mouli_seen = mongo_data.get("mouli_seen", True)
-
+        self.mates_logins = mongo_data.get("mates_logins", [])
     def to_dict(self):
         return {
             "_id": self._id,
@@ -54,7 +54,8 @@ class Project:
             "slug": self.slug,
             "scolar_year": self.scolar_year,
             "code_instance": self.code_instance,
-            "mouli_seen": self.mouli_seen
+            "mouli_seen": self.mouli_seen,
+            "mates_logins": self.mates_logins
         }
 
     def to_api(self):
@@ -71,6 +72,7 @@ class Project:
             "fetch_date": self.fetch_date,
             "slug": self.slug,
             "mouli_seen": self.mouli_seen,
+            "mates_logins": self.mates_logins,
             "mouli": {
                 "test_id": latest_mouli.test_id,
                 "score": latest_mouli.score,

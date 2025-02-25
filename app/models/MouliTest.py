@@ -144,7 +144,6 @@ class MouliResult:
 
     coverage_lines: int = 0
     coverage_branches: int = 0
-    mates_logins: [str] = []
 
     coding_style_report: CodingStyleReport
 
@@ -169,8 +168,6 @@ class MouliResult:
         self.coverage_branches = mongodata["coverage_branches"] if "coverage_branches" in mongodata else 0
         self.coding_style_report = CodingStyleReport(
             mongodata["coding_style_report"])
-        self.mates_logins = mongodata.get("mates_logins", [])
-
     @property
     def score(self):
         total_tests = sum([skill.tests_count for skill in self.skills])
@@ -211,7 +208,6 @@ class MouliResult:
             "coding_style_report": self.coding_style_report.to_dict(),
             "coverage_lines": self.coverage_lines,
             "coverage_branches": self.coverage_branches,
-            "mates_logins": self.mates_logins
         }
 
     def to_api(self):
@@ -241,7 +237,6 @@ class MouliResult:
             "coding_style_report": self.coding_style_report.to_dict(),
             "coverage_lines": self.coverage_lines,
             "coverage_branches": self.coverage_branches,
-            "mates_logins": self.mates_logins
         }
 
     @property

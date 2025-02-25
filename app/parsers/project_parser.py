@@ -19,4 +19,5 @@ def fill_project_from_intra(intra_json: dict, project: Project,
     project.title_module = intra_json["title_module"]
     project.scolar_year = intra_json["scolaryear"]
     project.code_instance = intra_json["codeinstance"]
+    project.mates_logins = intra_json["mates_logins"] if "mates_logins" in intra_json else []
     return project
