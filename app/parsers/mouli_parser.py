@@ -89,6 +89,7 @@ def build_mouli_from_myepitech(test_id: int, mouli_json: dict,
     cov_lines, _ = _get_external_item(mouli_json, "coverage.lines")
     mouli.coverage_lines = cov_lines
 
+    mouli.mates_logins = mouli_json["mates_logins"] if "mates_logins" in mouli_json else []
     cov_branches, _ = _get_external_item(mouli_json, "coverage.branches")
     mouli.coverage_branches = cov_branches
 
