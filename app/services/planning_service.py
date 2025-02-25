@@ -69,5 +69,5 @@ class PlanningService:
                 PlanningService.create_event(event)
         # Delete events that are not in the list
         for event in current_events:
-            if event.code_acti not in [e.code_acti for e in events]:
+            if event.code_acti not in [e.code_acti for e in events if e is not None]:
                 PlanningService.delete_event(event)
