@@ -3,12 +3,19 @@ from datetime import datetime
 from app.globals import Globals
 from app.models.Project import Project
 
+
 class ProjectService:
 
     @staticmethod
-    def get_student_projects(student_id: str):
-        return [Project(p) for p in
-                Globals.database["projects"].find({"student_id": student_id})]
+    def get_student_projects(student_id: str, mouli_only=False) -> [Project]:
+        if not mouli_only:
+            return [Project(p) for p in
+                    Globals.database["projects"].find({"student_id": student_id})]
+        else:
+            # get all projects where slug is not "unknown"
+            return [Project(p) for p in
+                    Globals.database["projects"].find({"student_id": student_id, "slug": {"$ne": "unknown"}})]
+
 
     @staticmethod
     def get_project_by_slug(student_id: str, slug: str) -> Project | None:
@@ -26,7 +33,9 @@ class ProjectService:
 
     @staticmethod
     def get_latest_date_before_now(student_id: str) -> str:
-        p = Globals.database["projects"].find_one({"student_id": student_id, "date_end": {"$lt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}}, sort=[("date_end", -1)])
+        p = Globals.database["projects"].find_one(
+            {"student_id": student_id, "date_end": {"$lt": datetime.now().strftime("%Y-%m-%d %H:%M:%S")}},
+            sort=[("date_end", -1)])
         return p["date_start"] if p else None
 
     @staticmethod
@@ -40,7 +49,7 @@ class ProjectService:
     @staticmethod
     def make_all_project_as_seen(student_id: str):
         Globals.database["projects"].update_many({"student_id": student_id},
-                                                {"$set": {"mouli_seen": True}})
+                                                 {"$set": {"mouli_seen": True}})
         return True
 
     @staticmethod

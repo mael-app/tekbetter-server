@@ -46,7 +46,7 @@ export default function MouliPage(): React.ReactElement {
     const navigate = useNavigate();
 
     const reload_projects = () => {
-        getAllProjects().then((data) => {
+        getAllProjects(true).then((data) => {
             setProjects(data.sort((a, b) => a.start_date > b.start_date ? -1 : 1));
         }).catch((e) => {
             console.error("Failed to load projects", e);

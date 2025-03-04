@@ -1,3 +1,5 @@
+from concurrent.futures import ThreadPoolExecutor
+
 from flask import request
 
 from app.api.middlewares.student_auth_middleware import student_auth_middleware
@@ -9,10 +11,15 @@ def load_project_routes(app):
     @student_auth_middleware()
     def projects_route():
         student = request.student
+        params = request.args
+        projects = ProjectService.get_student_projects(student.id, params.get("mouli_only", False))
 
-        projects = ProjectService.get_student_projects(student.id)
+        def project_to_api(project):
+            return project.to_api()
 
-        return [project.to_api() for project in projects]
+        with ThreadPoolExecutor() as executor:
+            result = list(executor.map(project_to_api, projects))
+        return result
 
     @app.route("/api/projects/<string:proj_slug>/mark-seen", methods=["POST"])
     @student_auth_middleware()
