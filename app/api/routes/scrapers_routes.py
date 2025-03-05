@@ -98,13 +98,13 @@ def load_scrapers_routes(app):
         }
 
     @app.route("/api/scraper/status", methods=["POST"])
-    @scraper_auth_middleware()
+    @scraper_auth_middleware(only_login=True)
     def update_scraper_status():
         """
         Update the sync status of the scraper
         """
 
-        student = request.student
+        student_login = request.student_login
 
         values_whitelist = ["loading", "success", "error"]
         keys_whitelist = ["mouli", "planning", "projects", "slugs", "modules", "avatar", "profile", "auth", "scraping"]
@@ -117,10 +117,10 @@ def load_scrapers_routes(app):
             value = data[k]
             if not value in values_whitelist:
                 continue
-            RedisService.set(f"{student.login}:scraper-status:{k}", value)
+            RedisService.set(f"{student_login}:scraper-status:{k}", value)
             if not k == "scraping" or value == "success":
-                RedisService.set(f"{student.login}:scraper-status:{k}:last-update", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-            log_debug(f"Updated scraper status for {student.login} : {k} -> {value}")
+                RedisService.set(f"{student_login}:scraper-status:{k}:last-update", datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            log_debug(f"Updated scraper status for {student_login} : {k} -> {value}")
 
         return "OK"
 
