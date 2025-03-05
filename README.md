@@ -31,6 +31,10 @@ their daily life.
 | DATA_PATH           | The path where the data (scrapers config/student pictures etc... will be stored. | ./data        |
 | APP_URL             | The app url used to send register links by email.                                |               |
 | ENABLE_MAILER       | Enable the mailer service.                                                       | false         |
+| SMTP_SERVER         | The SMTP server hostname.                                                        |               |
+| SMTP_PORT           | The SMTP server port.                                                            |               |
+| SMTP_USER           | The SMTP server username.                                                        |               |
+| SMTP_PASSWORD       | The SMTP server password.                                                        |               |
 | BYPASS_CACHE_RELOAD | This bypass the cache reload when the server is started.                         | false         |
 
 ### Frontend (`/web/.env`)
@@ -99,7 +103,8 @@ PYTHONPATH=$(pwd) python3 app/main.py
 ## How to configure internal (public) scrapers
 
 An internal scraper is a scraper that will be controlled by the backend.
-To configure a scraper, you need to create a `scrapers.json` file in the `data` directory (check the `DATA_PATH`' env variable).
+To configure a scraper, you need to create a `scrapers.json` file in the `data` directory (check the `DATA_PATH`' env
+variable).
 
 Here is an example of a scraper configuration :
 
