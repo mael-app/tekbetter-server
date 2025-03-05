@@ -99,7 +99,7 @@ PYTHONPATH=$(pwd) python3 app/main.py
 ## How to configure internal (public) scrapers
 
 An internal scraper is a scraper that will be controlled by the backend.
-To configure a scraper, you need to create a `scrapers.json` file in the root directory of the project.
+To configure a scraper, you need to create a `scrapers.json` file in the `data` directory (check the `DATA_PATH`' env variable).
 
 Here is an example of a scraper configuration :
 
