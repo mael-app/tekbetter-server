@@ -47,7 +47,12 @@ def load_scrapers_routes(app):
             })
 
         return {
-            "student_interval": 120,
+            "intervals": {
+                "moulinettes": 30,
+                "projects": 120,
+                "planning": 300,
+                "modules": 50
+            },
             "students": res
         }
 
@@ -87,7 +92,7 @@ def load_scrapers_routes(app):
             "known_tests": moulis_ids,
             "known_modules": [m.module_id for m in ModuleService.get_recent_fetched_modules(student.id)],
             "asked_slugs": asked_slugs,
-            "asked_pictures": [] if StudentPictureService.is_picture_exists(student.login) else [student.login],
+            "need_picture_login": None if StudentPictureService.is_picture_exists(student.login) else student.login,
             "fetch_start": start.strftime("%Y-%m-%d"),
             "fetch_end": end.strftime("%Y-%m-%d")
         }
@@ -128,40 +133,39 @@ def load_scrapers_routes(app):
         student = request.student
         data = request.json
 
-        required_keys = ["intra_profile", "intra_projects", "intra_planning", "new_moulis", "projects_slugs",
-                         "students_pictures", "modules"]
+        required_keys = ["mouli", "modules", "profile", "planning", "projects", "slugs", "picture"]
         for key in required_keys:
             if key not in data:
                 log_warning(f"Failed to retrieve data from scraper for user {student.login} : Missing key {key}")
                 return {"message": f"Missing key {key}"}, 400
 
-        if data["intra_profile"] is not None:
-            fill_student_from_intra(data["intra_profile"], student)
+        if data["profile"] is not None:
+            fill_student_from_intra(data["profile"], student)
             StudentService.update_student(student)
 
-        if data["intra_projects"] is not None:
-            for proj in data["intra_projects"]:
+        if data["projects"] is not None:
+            for proj in data["projects"]:
                 project = Project()
                 fill_project_from_intra(proj, project, student.id)
                 project.last_update = datetime.now().strftime(
                     "%Y-%m-%d %H:%M:%S")
                 ProjectService.upload_project(project)
 
-        if data["intra_planning"] is not None:
+        if data["planning"] is not None:
             events = []
-            for event in data["intra_planning"]:
+            for event in data["planning"]:
                 e = PlanningEvent()
                 events.append(fill_event_from_intra(event, e, student.id))
             PlanningService.sync_events(events, student.id)
 
-        if data["new_moulis"] is not None:
-            for mouli_id, mouli_data in data["new_moulis"].items():
+        if data["mouli"] is not None:
+            for mouli_id, mouli_data in data["mouli"].items():
                 mouli = build_mouli_from_myepitech(mouli_id, mouli_data,
                                                    student.id)
                 MouliService.upload_mouli(mouli)
 
-        if data["projects_slugs"] is not None:
-            for project_id, slug in data["projects_slugs"].items():
+        if data["slugs"] is not None:
+            for project_id, slug in data["slugs"].items():
                 project = ProjectService.get_project_by_code_acti(project_id,
                                                                   student.id)
                 if not project:
@@ -169,10 +173,8 @@ def load_scrapers_routes(app):
                 project.slug = slug if slug else "unknown"
                 ProjectService.upload_project(project)
 
-        if data["students_pictures"] is not None:
-            for student_login, picture in data["students_pictures"].items():
-                if student.login == student_login:
-                    StudentPictureService.add_student_picture(student_login, base64.b64decode(picture))
+        if data["picture"] is not None:
+            StudentPictureService.add_student_picture(student.login, base64.b64decode(data["picture"]))
 
         if data["modules"] is not None:
             for module_data in data["modules"]:
