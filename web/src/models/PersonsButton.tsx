@@ -6,8 +6,10 @@ import StudentData from "./StudentData";
 import LoadingComp from "../comps/LoadingComp";
 import {vars} from "../api/api";
 
-function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: number }) {
+function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: number, position?: "left" | "right" }) {
     const [students, setStudents] = React.useState<StudentData[] | null>(null);
+
+    const position = props.position || "left";
 
     useEffect(() => {
         let students = props.students_ids.map(id => getStudentData(id));
@@ -17,7 +19,7 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
     }, []);
 
     return (
-        <div className={"absolute bg-white p-4 rounded-lg w-96"} style={{left: props.mouseX - 390, top: props.mouseY - 110}}>
+        <div className={"absolute bg-white p-4 rounded-lg w-96"} style={position === "left" ? {left: props.mouseX - 390, top: props.mouseY - 110} : {left: props.mouseX + 10, top: props.mouseY - 110}}>
             <div className={"flex flex-row items-center gap-2 text-lg"}>
                 <FontAwesomeIcon icon={faCheckCircle} className={"text-green-500"}/>
                 <h1 className={"text-xl font-bold"}>Validated students</h1>
@@ -44,7 +46,7 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
     )
 }
 
-export default function PersonsButton(props: { students_ids: string[] }) {
+export default function PersonsButton(props: { students_ids: string[], position?: "left" | "right" }) {
 
     const [isOpen, setIsOpen] = React.useState(false);
     const [mousePosition, setMousePosition] = React.useState({x: 0, y: 0});
@@ -64,7 +66,7 @@ export default function PersonsButton(props: { students_ids: string[] }) {
 
         {isOpen && props.students_ids.length > 0 &&
             <PersonsModal students_ids={props.students_ids} mouseX={mousePosition.x}
-                          mouseY={mousePosition.y}/>}
+                          mouseY={mousePosition.y} position={props.position}/>}
 
     </div>
 
