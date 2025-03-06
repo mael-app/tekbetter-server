@@ -49,9 +49,10 @@ def load_scrapers_routes(app):
         return {
             "intervals": {
                 "moulinettes": 30,
-                "projects": 120,
-                "planning": 300,
-                "modules": 50
+                "projects": 160,
+                "planning": 600,
+                "modules": 90,
+                "profile": 600,
             },
             "students": res
         }
