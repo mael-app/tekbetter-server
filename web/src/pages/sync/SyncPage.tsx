@@ -124,6 +124,7 @@ function PrivateScraperSetup() {
             <a
                 href="https://github.com/EliotAmn/tekbetter-scraper"
                 target="_blank"
+                rel="noreferrer"
                 className="text-blue-500"
             >
                 Github repository

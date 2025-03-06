@@ -1,4 +1,4 @@
-import {faCheckCircle, faChevronDown, faUserCheck, faUserXmark} from "@fortawesome/free-solid-svg-icons";
+import {faCheckCircle, faUserCheck, faUserXmark} from "@fortawesome/free-solid-svg-icons";
 import React, {useEffect} from "react";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {getStudentData} from "../api/global.api";
@@ -16,7 +16,7 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
         Promise.all(students).then((data) => {
             setStudents(data);
         });
-    }, []);
+    }, [props.students_ids]);
 
     return (
         <div className={"absolute bg-white p-4 rounded-lg w-96"} style={position === "left" ? {left: props.mouseX - 390, top: props.mouseY - 110} : {left: props.mouseX + 10, top: props.mouseY - 110}}>

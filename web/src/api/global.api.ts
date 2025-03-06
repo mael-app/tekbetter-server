@@ -1,6 +1,5 @@
 import api, {vars} from "./api";
 import StudentData from "../models/StudentData";
-import SyncStatusWindow from "../pages/sync/SyncStatusWindow";
 
 export interface SyncStatusTypeResult {
     status: "error" | "loading" | "success",
