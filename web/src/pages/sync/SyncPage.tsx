@@ -55,6 +55,10 @@ function PublicScraperSetup() {
                     <button
                         className="mt-2 h-8 bg-blue-500 text-white px-2 rounded"
                         onClick={() => {
+                            if (!microToken.startsWith("1.")) {
+                                alert("You must enter your Microsoft token, see the \"Get my cookie\" button below.")
+                                return;
+                            }
                             putMicrosoftToken(microToken!).then(() => setMicroToken(""));
                         }}
                     >
@@ -91,7 +95,13 @@ function PrivateScraperSetup() {
     }, []);
 
     const scraper_config = {
-        "student_interval": 60,
+        "intervals": {
+            "moulinettes": 30,
+            "projects": 60,
+            "planning": 120,
+            "modules": 120,
+            "profile": 120
+        },
         "students": [
             {
                 "microsoft_session": "1.AXQAyrQckGK4KUCTBuXN.... use your own session cookie",
