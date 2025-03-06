@@ -47,9 +47,8 @@ export async function getStudentData(id: string): Promise<StudentData> {
 
     let results = vars.studentsCache.filter(student => student.id === id);
 
-    if (results.length === 1) {
+    if (results.length >= 1)
         return results[0];
-    }
 
     const res = await api.get(`/student/${id}`);
     if (res.data === null) {
