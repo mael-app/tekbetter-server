@@ -52,7 +52,7 @@ export default function PersonsButton(props: { students_ids: string[], position?
     const [mousePosition, setMousePosition] = React.useState({x: 0, y: 0});
 
     return <div title={"Show validated students"}
-                className={"flex flex-row w-10 items-center rounded text-gray-600 px-1 h-6 text-xs py-1 gap-1 hover:bg-gray-300 cursor-pointer " + (props.students_ids.length === 0 ? "bg-gray-100 opacity-40" : " bg-green-200")}
+                className={"flex flex-row w-10 items-center rounded text-gray-600 px-1 h-5 text-xs py-1 gap-1 hover:bg-blue-100 cursor-pointer " + (props.students_ids.length === 0 ? "bg-gray-100 opacity-40" : " bg-blue-200")}
                 onClick={(e) => {
                     e.stopPropagation();
                     setIsOpen(true);

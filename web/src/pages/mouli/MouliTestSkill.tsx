@@ -18,10 +18,11 @@ function MouliTest(props: { test: MouliTestClass, setPopupValue: (value: string)
 
 
     return <div className={"flex flex-row items-center gap-1 p-2 rounded-md text-gray-500"}>
-        <FontAwesomeIcon icon={test.is_crashed ? faSkull : test.is_passed ? faCheckCircle : faXmarkCircle}
-                         className={color}/>
+
 
         {test.passed_students && <PersonsButton students_ids={test.passed_students} position={"right"}/>}
+        <FontAwesomeIcon icon={test.is_crashed ? faSkull : test.is_passed ? faCheckCircle : faXmarkCircle}
+                         className={" " + (color)}/>
         <p className={"font-bold text-nowrap"}>{test.name}</p>
         {/*<p className={`font-bold ${test.is_passed ? "text-green-600" : "text-red-500"}`}>{test.is_crashed ? "CRASH" : test.is_passed ? "Passed" : "FAIL"}</p>*/}
         <div className={"flex flex-row items-center ml-2"}>
