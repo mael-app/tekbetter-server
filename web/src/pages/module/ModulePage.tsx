@@ -6,7 +6,7 @@ import EpiCoinFilled from "../../assets/svg/epicoinfilled.svg";
 import {
     faBrain,
     faCalendarCheck,
-    faCheckCircle,
+    faCheckCircle, faCoins,
     faHammer, faHourglass,
     faMinusCircle, faPlus, faQuestionCircle,
     faUserGraduate,
@@ -170,7 +170,8 @@ export default function ModulePage(): React.ReactElement {
         credits: number,
         current_year: number,
         required_credits: number,
-        current_year_id: number
+        current_year_id: number,
+        gpa: number | null
     } | null>(null);
 
     const [selected_year, setSelectedYear] = React.useState<number>(0);
@@ -278,8 +279,15 @@ export default function ModulePage(): React.ReactElement {
 
             <div className={"flex flex-col gap-4 sm:flex-row"}>
 
-
-                <TopCard title={"Your credits"} icon={faUserGraduate} isOk={true}>
+                <TopCard title={"Your GPA"} icon={faUserGraduate} isOk={true}>
+                    <div className={"flex flex-row items-center gap-2 text-2xl p-2"}>
+                        <div className={"flex flex-row items-center gap-2"}>
+                            <FontAwesomeIcon icon={faUserGraduate} className={"text-blue-400"}/>
+                            <p className={"text-xl text font-bold"}>{api_data.gpa}</p>
+                        </div>
+                    </div>
+                </TopCard>
+                <TopCard title={"Your credits"} icon={faCoins} isOk={true}>
                     <div className={"flex flex-row items-center gap-2 text-2xl"}>
                         <div className={"w-6 h-6"}>
                             <EpiCoinFilled/>

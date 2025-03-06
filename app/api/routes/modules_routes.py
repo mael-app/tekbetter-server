@@ -16,6 +16,7 @@ def load_module_routes(app):
         return {
             "modules": m_api,
             "credits": student.credits,
+            "gpa": student.gpa,
             "current_year": student.scolaryear,
             "current_year_id": student.scolaryear_id,
             "required_credits": student.required_credits
