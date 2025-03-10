@@ -77,8 +77,9 @@ function TextComparePopup(props: { instance: MouliGotExpected, close: () => void
         <div>
             <div className={"absolute top-0 left-0 w-full h-full bg-black z-40 opacity-60"}/>
 
-            <div className={"absolute w-full h-full top-0 left-0 flex z-50 justify-center items-center"} onClick={() => props.close()}>
-                <div className={"bg-gray-100 m-2 rounded-md p-2"} onClick={(e) => e.stopPropagation()}>
+            <div className={"absolute w-full h-full top-0 left-0 flex z-50 justify-center items-center"}
+                 onClick={() => props.close()}>
+                <div className={"bg-gray-100 dark:bg-gray-800 m-2 rounded-md p-2"} onClick={(e) => e.stopPropagation()}>
                     <div className={"flex flex-row items-start justify-between"}>
                         <FontAwesomeIcon icon={faBalanceScale}/>
                         <h1 className={"font-bold text-center text-xl mb-2"}>Result comparator</h1>
@@ -129,7 +130,7 @@ function TopProp(props: { children: React.ReactNode, title: string, icon: any, i
     }
 
     return <div
-        className={"flex flex-col border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition"}>
+        className={"flex flex-col border-l-2 border-gray-200 dark:border-gray-600 pl-2 pb-1 m-1 shadow-sm dark:shadow-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"}>
         <div className={"flex flex-row items-center justify-between gap-2 p-2"}>
             <div className={"flex flex-row items-center gap-1"}>
                 <FontAwesomeIcon icon={props.icon}/>
@@ -148,7 +149,7 @@ function ElemStatus(props: { err_content: any }) {
         </div>
     ) : (
         <div
-            className={"flex max-w-64 flex-row items-center border rounded border-red-400 bg-red-200 text-gray-500 gap-1 pl-1"}>
+            className={"flex max-w-64 flex-row items-center border rounded text-gray-500 dark:text-gray-300 border-red-400 bg-red-200 dark:bg-red-950  gap-1 pl-1"}>
             <FontAwesomeIcon icon={faCircleInfo} color={"red"}/>
             <p>{props.err_content}</p>
         </div>

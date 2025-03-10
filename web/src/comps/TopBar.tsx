@@ -3,7 +3,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
     faBars,
     faCalendarCheck, faCheckCircle, faGears,
-    faGraduationCap, faLinesLeaning, faPowerOff, faShareNodes,
+    faGraduationCap, faLinesLeaning, faMoon, faPowerOff, faShareNodes, faSun,
     faWarning, faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import {dateToElapsed} from "../tools/DateString";
@@ -77,7 +77,7 @@ function GlobalSyncStatus(props: { className?: string }) {
         return gen_visual("text-green-500", faCheckCircle, dateToElapsed(last_sync));
 }
 
-function UserComp() {
+function UserComp(props: {isDarkMode: boolean, setDarkMode: (mode: boolean) => void}) {
     const [user, setUser] = useState<StudentData | null>(null);
 
     useEffect(() => {
@@ -113,6 +113,11 @@ function UserComp() {
                  }
              }}>
             <FontAwesomeIcon icon={faPowerOff} className={"text-red-500 cursor-pointer"} title={"Logout"}/>
+        </div>
+        <div title={"Toggle light/dark mode"}
+             className={"text-center bg-black bg-opacity-0  p-2 w-10 ml-2 h-10 rounded-full cursor-pointer transition"}
+             onClick={() => props.setDarkMode(!props.isDarkMode)}>
+            <FontAwesomeIcon icon={props.isDarkMode ? faSun : faMoon} className={"cursor-pointer"} title={"Logout"}/>
         </div>
         {/*<SyncStatus/>*/}
     </div>
@@ -157,7 +162,10 @@ function PhoneBar(props: {
 }
 
 
-export default function TopBar(): React.ReactElement {
+export default function TopBar(props: {
+    setDarkMode: (mode: boolean) => void,
+    isDarkMode: boolean
+}): React.ReactElement {
 
     const [phoneBarOpen, setPhoneBarOpen] = useState<boolean>(false);
 
@@ -177,7 +185,7 @@ export default function TopBar(): React.ReactElement {
     return (
         <div>
             <div
-                className={"flex flex-row justify-between min-h-20 items-center text-gray-700 py-2 overflow-x-auto scroll-container px-3"}>
+                className={"flex flex-row justify-between min-h-20 items-center py-2 overflow-x-auto scroll-container px-3"}>
                 <div className={"flex flex-row items-center"}>
 
                     <div
@@ -204,7 +212,7 @@ export default function TopBar(): React.ReactElement {
                         .map((route) => <NavElement text={route.text} link={route.link} icon={route.icon}/>)}
                 </div>
 
-                <UserComp/>
+                <UserComp setDarkMode={props.setDarkMode} isDarkMode={props.isDarkMode}/>
             </div>
 
             <PhoneBar className={phoneBarOpen ? "" : "hidden"} routes={routes} close={() => setPhoneBarOpen(false)}/>

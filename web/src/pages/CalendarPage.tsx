@@ -21,7 +21,7 @@ function CopyUrl(props: { cal_name: string, token: string }) {
         <button onClick={copy} className={"ml-2 h-8 bg-blue-500 text-white px-2 rounded"}>Copy</button>
 
         <div
-            className={"bg-gray-100 border-gray-300 border text-gray-500 shadow flex flex-row items-center rounded px-2 py-1 flex-grow overflow-x-auto"}
+            className={"border-gray-300 dark:border-gray-700 border text-gray-500 shadow flex flex-row items-center rounded px-2 py-1 flex-grow overflow-x-auto"}
         >
             <p>{url}</p>
         </div>

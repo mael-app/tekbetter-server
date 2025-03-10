@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    darkMode: 'class',
     content: [
         "./src/**/*.{js,jsx,ts,tsx}",
     ],
@@ -13,6 +14,9 @@ module.exports = {
                     400: '#1F2937',
                     500: '#111827',
                 },
+                gray: {
+                    750: '#273446',
+                }
             },
             fontFamily: {
                 'body': ['Nunito'],

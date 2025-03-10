@@ -41,7 +41,7 @@ function GradeDisplay(props: { grade: string }) {
     if (!Object.keys(colors).includes(grade))
         return null;
 
-    return <div className={"rounded-full bg-white shadow w-5 h-5 flex flex-row items-center justify-center"}
+    return <div className={"rounded-full bg-white dark:bg-gray-950 shadow w-5 h-5 flex flex-row items-center justify-center"}
                 title={`Grade: ${props.grade}`}>
         <p className={`${colors[grade]} font-bold text-xs select-none`}>{grade}</p>
     </div>
@@ -58,7 +58,7 @@ function RoadBlock(props: {
     icon: any
 }) {
     return <div
-        className={"flex flex-col border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition h-full"}>
+        className={"flex flex-col border-l-2 border-gray-200 dark:border-gray-600 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 dark:hover:bg-gray-750 transition h-full"}>
         <div className={"flex flex-row items-center justify-between gap-2 p-2"}>
 
             <div className={"flex flex-row items-center gap-1"}>
@@ -101,7 +101,7 @@ function ModuleList(props: { modules: EpiModule[] }) {
 
     return props.modules.map((m) => (
         <div
-            className={"flex flex-row items-center justify-between hover:bg-gray-200 transition"}>
+            className={"flex flex-row items-center justify-between hover:bg-gray-200 dark:hover:bg-gray-750 transition"}>
             <div className={"flex flex-row items-center gap-2"}>
 
                 {!m.is_failed() && m.student_registered &&
@@ -145,7 +145,7 @@ function TopCard(props: { title: string, icon: any, isOk?: boolean, children: Re
 
     return (
         <div
-            className={"flex flex-col w-full border-l-2 border-gray-200 pl-2 m-1 shadow-sm rounded hover:bg-gray-100 transition"}>
+            className={"flex flex-col w-full border-l-2 border-gray-200 dark:border-gray-600 pl-2 m-1 shadow-sm dark:shadow-gray-700 rounded hover:bg-gray-100 dark:hover:bg-gray-750 transition"}>
             <div className={"flex flex-row items-center justify-between gap-2 p-2"}>
 
                 <div className={"flex flex-row items-center gap-1 text"}>

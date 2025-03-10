@@ -15,7 +15,7 @@ function PublicScraperSetup() {
     return (
         <div className="p-3">
             <h2 className="font-bold">How it's works ?</h2>
-            <p className="text-gray-500">
+            <p className="text-gray-400">
                 You provide a Microsoft session cookie below. It will be stored on a
                 private and secured database with encryption methods. There are multiple
                 scraper services, and your Intra & MyEpitech data will be scraped by one
@@ -40,7 +40,7 @@ function PublicScraperSetup() {
                     className="w-36"
                 />
                 <div>
-                    <h3 className="font-bold text-gray-700">Update your Microsoft cookie</h3>
+                    <h3 className="font-bold text-gray-400">Update your Microsoft cookie</h3>
                     <p>
                         If you have changed your Microsoft password, or the token is
                         expired, you need to re-enter it below.
@@ -48,7 +48,7 @@ function PublicScraperSetup() {
                     <input
                         value={microToken || ""}
                         type="text"
-                        className="w-full p-2 border-gray-300 border rounded text-xs"
+                        className="w-full p-2 border-gray-300 dark:border-gray-700 border rounded text-xs dark:bg-gray-700"
                         placeholder="1.HCV68Z8Xq3rkJdH3TY..."
                         onChange={(e) => setMicroToken(e.target.value)}
                     />
@@ -120,7 +120,7 @@ function PrivateScraperSetup() {
                 your data to your account.
             </p>
 
-            <h3 className="font-bold text-gray-700">Install the scraper: </h3>
+            <h3 className="font-bold text-gray-500">Install the scraper: </h3>
             <a
                 href="https://github.com/EliotAmn/tekbetter-scraper"
                 target="_blank"
@@ -136,19 +136,19 @@ function PrivateScraperSetup() {
                         onClick={() => window.open("https://github.com/EliotAmn/tekbetter-server/blob/main/docs/HOW_TO_GET_COOKIES.md")}/>
             </div>
 
-            <h3 className="font-bold text-gray-700">Your upload token: </h3>
-            <code className="bg-gray-100 text-gray-500 text-xs p-2 rounded overflow-x-auto">{token ? token :
+            <h3 className="font-bold text-gray-400">Your upload token: </h3>
+            <code className="bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs p-2 rounded overflow-x-auto">{token ? token :
                 <LoadingComp/>}</code>
 
-            <h3 className="font-bold text-gray-700">
+            <h3 className="font-bold text-gray-400">
                 This is the API URL you need to use in the scraper config:
             </h3>
-            <code className="bg-gray-100 text-gray-500 text-xs p-2 rounded">{document.location.origin}</code>
+            <code className="bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs p-2 rounded">{document.location.origin}</code>
 
-            <h3 className="font-bold text-gray-700">
+            <h3 className="font-bold text-gray-400">
                 You can use this example config for your scraper.json file.
             </h3>
-            <code className="bg-gray-100 text-gray-500 text-xs p-2 rounded">
+            <code className="bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 text-xs p-2 rounded">
                 <pre>{JSON.stringify(scraper_config, null, 2)}</pre>
 
             </code>
@@ -170,7 +170,7 @@ function PrivateScraperSetup() {
                     }
                 }}
             >
-                Reload my token
+                Regen my token
             </button>
         </div>
     );
@@ -188,17 +188,9 @@ export default function SyncPage(): React.ReactElement {
             >
                 <div className="p-3 grid xl:grid-cols-2 gap-4">
 
-                    {/*<WindowElem title={"Sync status"} className="">*/}
-                    {/*    <div>*/}
-                    {/*        */}
-
-
-                    {/*    </div>*/}
-                    {/*</WindowElem>*/}
-
                     <WindowElem title={"Configure scraper"} className="">
                         <div className={"flex justify-center items-center flex-col"}>
-                            <div className="flex flex-row bg-white rounded shadow w-min mt-2">
+                            <div className="flex flex-row rounded shadow w-min mt-2">
                                 {
                                     [{
                                         page: "public",
@@ -210,7 +202,7 @@ export default function SyncPage(): React.ReactElement {
                                         title: "Use your own (avanced)",
                                     }].map((item) => (
                                         <div
-                                            className={`flex flex-nowrap flex-row rounded transition items-center gap-2 p-2 cursor-pointer ${page === item.page ? "bg-blue-700 text-white" : ""}`}
+                                            className={`flex flex-nowrap flex-row rounded transition items-center gap-2 p-2 cursor-pointer ${page === item.page ? "bg-blue-700 text-gray-100 " : ""}`}
                                             onClick={() => setPage(item.page as "public" | "private")}>
                                             <FontAwesomeIcon icon={item.icon} className="text-2xl"/>
                                             <h2 className={"text-nowrap"}>{item.title}</h2>

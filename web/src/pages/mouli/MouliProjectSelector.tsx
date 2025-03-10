@@ -24,7 +24,7 @@ function Project(props: {
     const navigate = useNavigate();
 
     return <div
-        className={"relative shadow text rounded-2xl flex flex-row items-center p-2 cursor-pointer transition " + (is_selected ? " shadow-lg" : "hover:bg-gray-100")}
+        className={"relative shadow dark:shadow-gray-700 text rounded-2xl flex flex-row items-center p-2 cursor-pointer transition " + (is_selected ? " shadow-lg dark:bg-gray-750" : "hover:bg-gray-100 dark:hover:bg-gray-750")}
         onClick={() => {
             navigate(`/moulinettes/${props.project_slug}`);
             if (!props.seen && !isNewClicked) {
@@ -61,20 +61,6 @@ function Project(props: {
             <p className={"absolute rounded-full top-0 right-0 text-xs text-white px-1 text-center bg-red-500 opacity-85"}>new
                 !</p>}
     </div>
-
-    // return <div
-    //     className={"flex flex-row items-center p-2 rounded-md bg-blue-950 text-white hover:bg-blue-900 cursor-pointer transition"}>
-    //
-    //     <div style={{width: "30px"}}>
-    //         <CircularProgressbar value={props.score} strokeWidth={12} styles={
-    //             buildStyles({
-    //                 pathColor: props.score > 75 ? "green" : props.score > 50 ? "yellow" : props.score > 25 ? "orange" : "red",
-    //                 trailColor: "rgba(255, 255, 255, 0.1)",
-    //             })
-    //         }/>
-    //     </div>
-    //     <p className={"text-xl ml-2 font-bold"}>{props.name}</p>
-    // </div>
 }
 
 export default function MouliProjectSelector(props: {
@@ -93,7 +79,7 @@ export default function MouliProjectSelector(props: {
             className={"p-4 min-w-96 flex-grow overflow-y-auto sm:max-w-96 rounded-t-2xl shadow " + (props.current_project === null ? "" : "hidden xl:block")}>
 
             <input type="text" placeholder="Search..."
-                   className={"w-full p-2 rounded-md bg-gray-100 text-gray-800 mt-2"}
+                   className={"w-full p-2 rounded-md dark:bg-gray-900  mt-2"}
                    onChange={(e) => setSearch(e.target.value)}/>
 
             <div className={"w-min"}>

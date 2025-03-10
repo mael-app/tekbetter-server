@@ -8,7 +8,5 @@ export default function HomePage(): React.ReactElement {
     useEffect(() => {
         nav("/moulinettes");
     }, []);
-    return (
-        <TopBar/>
-    );
+    return <div></div>;
 }

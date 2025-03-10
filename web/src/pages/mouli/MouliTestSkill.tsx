@@ -22,7 +22,7 @@ function MouliTest(props: { test: MouliTestClass, setPopupValue: (value: string)
 
     // test.comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit amet Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit ametdolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit ametdolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit ametdolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit ametdolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, vestibulum nunc sit amet"
 
-    return <div className={"flex flex-row items-center gap-1 p-2 rounded-md text-gray-500"}>
+    return <div className={"flex flex-row items-center gap-1 p-2 rounded-md "}>
 
 
         {test.passed_students && <PersonsButton students_ids={test.passed_students} position={"right"}/>}
@@ -60,7 +60,7 @@ export default function MouliTestSkill(props: {
 
     return <div className={""}>
         <div
-            className={"border-gray-100 border-2 text w-full hover:bg-gray-100 transition cursor-pointer flex flex-row justify-between items-center gap-2 p-1 rounded-t"}
+            className={"border-gray-100 dark:border-gray-700 border-2 text w-full hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer flex flex-row justify-between items-center gap-2 p-1 rounded-t"}
             onClick={() => setIsExpanded(!isExpanded)}
         >
             <div className={"flex flex-row items-center"}>
@@ -86,9 +86,9 @@ export default function MouliTestSkill(props: {
             </div>
         </div>
 
-        <div className={`${isExpanded ? "block" : "hidden"} bg-gray-100 p-2 rounded-b`}>
+        <div className={`${isExpanded ? "block" : "hidden"} bg-gray-100 dark:bg-gray-750 text-gray-400 p-2 rounded-b`}>
             <div className={"flex flex-row items-center justify-between gap-2"}>
-                <p className={"text-gray-500"}>Passed: {skill.tests_passed_count} of {skill.tests_count}</p>
+                <p className={""}>Passed: {skill.tests_passed_count} of {skill.tests_count}</p>
                 {skill.tests_crashed_count > 0 ?
                     <p className={"text-red-500 font-bold"}>Crashs: {skill.tests_crashed_count}</p> : null}
                 {skill.mandatory_failed_count > 0 ?

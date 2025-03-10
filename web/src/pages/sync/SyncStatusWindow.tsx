@@ -16,7 +16,7 @@ function SyncRow(props: { title: string, status?: SyncStatusTypeResult, disable_
         status = "error";
     }
 
-    return <div className={"flex flex-row gap-2 items-center justify-between hover:bg-gray-100"}>
+    return <div className={"flex flex-row gap-2 items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-750 transition"}>
         <div className={"flex flex-row gap-2 items-center"}>
             {status === "loading" && <FontAwesomeIcon icon={faRefresh} className={"text-blue-500"} spin={true}/>}
             {status === "error" && <FontAwesomeIcon icon={faXmarkCircle} className={"text-red-500"}/>}
@@ -24,7 +24,7 @@ function SyncRow(props: { title: string, status?: SyncStatusTypeResult, disable_
             {status === "success" && <FontAwesomeIcon icon={faCheckCircle} className={"text-green-500"}/>}
             <h3 className={"font-bold"}>{props.title}</h3>
         </div>
-        <p className={"text-gray-500"}>{last_update}</p>
+        <p className={"text-gray-400"}>{last_update}</p>
     </div>
 }
 
@@ -62,8 +62,8 @@ export default function SyncStatusWindow(): React.ReactElement {
 
     return <div className={"p-2"}>
         <div>
-            <p className={"text-gray-500"}>Last update: {dateToElapsed(new Date())}</p>
-            <p className={"text-gray-500"}>Scraper ID: {scraper_id || "Private"}</p>
+            <p className={"text-gray-400"}>Last update: {dateToElapsed(new Date())}</p>
+            <p className={"text-gray-400"}>Scraper ID: {scraper_id || "Private"}</p>
         </div>
 
         <div className={"flex flex-col"}>

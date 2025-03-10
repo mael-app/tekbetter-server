@@ -25,7 +25,7 @@ function MouliHistoryItem(props: {
     }
 
     return <div
-        className={"flex relative text flex-row justify-between items-center p-2 rounded-md shadow hover:bg-gray-100 cursor-pointer transition mb-1 min-w-52"}
+        className={"flex relative text flex-row justify-between items-center p-2 rounded-md shadow hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer transition mb-1 min-w-52"}
         onClick={props.onOpen}
     >
 
@@ -35,7 +35,7 @@ function MouliHistoryItem(props: {
                     buildStyles({
                         textColor: scoreColor(props.score).html,
                         pathColor: scoreColor(mouli.total_score).html,
-                        trailColor: "rgba(0,0,0,0.07)",
+                        trailColor: "rgba(0,0,0,0.19)",
                     })
                 }/>
             </div>

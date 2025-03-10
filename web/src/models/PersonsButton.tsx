@@ -19,7 +19,7 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
     }, [props.students_ids]);
 
     return (
-        <div className={"absolute bg-white p-4 rounded-lg w-96"} style={position === "left" ? {left: props.mouseX - 390, top: props.mouseY - 110} : {left: props.mouseX + 10, top: props.mouseY - 110}}>
+        <div className={"absolute bg-white dark:bg-gray-800 dark:text-gray-300 p-4 rounded-lg w-96"} style={position === "left" ? {left: props.mouseX - 390, top: props.mouseY - 110} : {left: props.mouseX + 10, top: props.mouseY - 110}}>
             <div className={"flex flex-row items-center gap-2 text-lg"}>
                 <FontAwesomeIcon icon={faCheckCircle} className={"text-green-500"}/>
                 <h1 className={"text-xl font-bold"}>Validated students</h1>
@@ -32,7 +32,7 @@ function PersonsModal(props: { students_ids: string[], mouseX: number, mouseY: n
                         {students.map((stud, index) => {
 
                             return <div key={index}
-                                        className={"flex flex-row items-center bg-gray-100 pr-3 p-1  rounded text-gray-600"}>
+                                        className={"flex flex-row items-center bg-gray-100 dark:bg-gray-900 pr-3 p-1 rounded"}>
                                 <img
                                     src={`${vars.backend_url}/api/global/picture/${stud.login}`}
                                     alt={stud.name}

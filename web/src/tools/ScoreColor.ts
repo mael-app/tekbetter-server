@@ -15,6 +15,7 @@ function getColorCode(score: number) {
     return "red";
 }
 
+
 export default function scoreColor(score: number) {
     const code = getColorCode(score);
     let result = {
