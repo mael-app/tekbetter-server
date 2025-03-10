@@ -52,7 +52,7 @@ class PlanningService:
                                                 {"$set": event.to_dict()})
 
     @staticmethod
-    def sync_events(events: [PlanningEvent], student_id: int):
+    def sync_events(events: [PlanningEvent], student_id: str):
         current_events = PlanningService.get_student_events(student_id)
         current_code_actis = [event.code_acti for event in current_events]
 
@@ -67,7 +67,9 @@ class PlanningService:
                 PlanningService.update_event(event)
             else:
                 PlanningService.create_event(event)
-        # Delete events that are not in the list
+        # Delete events that are not in the list and not past yet
         for event in current_events:
+            if event.date_end < datetime.now().strftime("%Y-%m-%d %H:%M:%S"):
+                continue # Don't delete the event if it already passed
             if event.code_acti not in [e.code_acti for e in events if e is not None]:
                 PlanningService.delete_event(event)
