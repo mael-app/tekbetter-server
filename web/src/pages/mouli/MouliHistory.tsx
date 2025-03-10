@@ -72,7 +72,7 @@ export default function MouliHistory(props: {
     return (
         <WindowElem
             title={<h1 className={"font-bold text-center text"}>Tests history</h1>}
-            className={"h-full overflow-y-auto"}
+            className={"h-full overflow-y-auto min-w-80"}
         >
             <div className={"p-2 "}>
                 <div className="p-1">

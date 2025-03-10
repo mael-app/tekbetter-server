@@ -7,7 +7,6 @@ import {useNavigate, useParams} from "react-router";
 import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
 import scoreColor from "../../tools/ScoreColor";
 import {dateToElapsed} from "../../tools/DateString";
-import {BasicBox} from "../../comps/WindowElem";
 
 
 function Project(props: {
@@ -91,7 +90,7 @@ export default function MouliProjectSelector(props: {
     return (
 
         <div
-            className={"p-4 flex-grow overflow-y-auto sm:max-w-96 rounded-t-2xl shadow " + (props.current_project === null ? "" : "hidden xl:block")}>
+            className={"p-4 min-w-96 flex-grow overflow-y-auto sm:max-w-96 rounded-t-2xl shadow " + (props.current_project === null ? "" : "hidden xl:block")}>
 
             <input type="text" placeholder="Search..."
                    className={"w-full p-2 rounded-md bg-gray-100 text-gray-800 mt-2"}

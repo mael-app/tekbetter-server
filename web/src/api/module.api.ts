@@ -1,5 +1,4 @@
 import api from "./api";
-import {EpiProject} from "../models/Project";
 import {EpiModule} from "../models/Module";
 
 export default async function getModules(): Promise<{ modules: EpiModule[], credits: number, current_year: number, required_credits: number, current_year_id: number, gpa: number | null }> {

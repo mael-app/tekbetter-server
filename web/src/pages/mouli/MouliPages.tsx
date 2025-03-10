@@ -2,16 +2,13 @@ import React, {useEffect} from "react";
 import 'react-circular-progressbar/dist/styles.css';
 import MouliContent from "./MouliContent";
 import MouliHistory from "./MouliHistory";
-import {buildStyles, CircularProgressbar} from "react-circular-progressbar";
-import {dateToElapsed} from "../../tools/DateString";
 import {MouliResult} from "../../models/MouliResult";
-import getAllProjects, {markAllProjectsAsSeen, markProjectAsSeen} from "../../api/project.api";
+import getAllProjects from "../../api/project.api";
 import {EpiProject} from "../../models/Project";
 import {getMouliDetails, getProjectMouliHistory} from "../../api/mouli.api";
 import {useNavigate, useParams} from "react-router";
-import scoreColor from "../../tools/ScoreColor";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faCheck, faChevronLeft, faWarning} from "@fortawesome/free-solid-svg-icons";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import LoadingComp from "../../comps/LoadingComp";
 import MouliProjectSelector from "./MouliProjectSelector";
 import NoSyncComp from "../../comps/NoSyncComp";
@@ -81,10 +78,8 @@ export default function MouliPage(): React.ReactElement {
             <div className={"flex flex-row p-5 text"} style={{
                 height: "calc(100vh - 130px)",
             }}>
-
                 <MouliProjectSelector projects={projects} reload_projects={reload_projects}
                                       current_project={project_slug}/>
-
 
                 {
                     (projects.length === 0) ? <NoSyncComp/> : null
