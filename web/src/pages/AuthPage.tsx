@@ -99,7 +99,7 @@ export default function AuthPage(): React.ReactElement {
 
     return (
         <div className={"flex flex-row gap-4 justify-center items-center h-full"}>
-            <div className={"p-10 shadow rounded bg-white"}>
+            <div className={"p-10 shadow rounded bg-white dark:bg-gray-750"}>
                 <div className={"flex flex-col items-center gap-5 mb-6"}>
                     <img
                         src={require("../assets/tblogo.png")}
@@ -121,7 +121,7 @@ export default function AuthPage(): React.ReactElement {
                         <div className={"mb-2"}>
                             <label className={"block"}>Email</label>
                             <input type={"email"} placeholder={"grace.hopper@epitech.eu"}
-                                   className={"w-full p-2 border border-gray-300 rounded"}
+                                   className={"w-full p-2 border border-gray-300 rounded dark:bg-gray-700"}
                                    value={login_email}
                                    autoComplete="email"
                                    onChange={(e) => setLoginEmail(e.target.value)}
@@ -146,7 +146,7 @@ export default function AuthPage(): React.ReactElement {
 
                             <label className={"block"}>Epitech email:</label>
                             <input type={"email"} placeholder={"imanoob@epitech.eu"}
-                                   className={"w-full p-2 border border-gray-300 rounded"}
+                                   className={"w-full p-2 border border-gray-300 dark:bg-gray-700 rounded"}
                                    value={login_email}
                                    autoComplete="email"
                                    onChange={(e) => setLoginEmail(e.target.value)}
@@ -165,7 +165,7 @@ export default function AuthPage(): React.ReactElement {
                         <div className={"mb-2"}>
                             <label className={"block"}>Enter your tekbetter password</label>
                             <input type={"password"} placeholder={"TekBetter password"}
-                                   className={"w-full p-2 border border-gray-300 rounded"}
+                                   className={"w-full p-2 border border-gray-300 dark:bg-gray-700 rounded"}
                                    value={login_password}
                                    autoComplete="current-password"
                                    onChange={(e) => setLoginPassword(e.target.value)}
@@ -183,7 +183,7 @@ export default function AuthPage(): React.ReactElement {
                     page === "register" && <>
                         <div className={"mb-2c flex flex-col items-center"}>
                             <FontAwesomeIcon icon={faCheckCircle} className={"text-green-500 text-2xl"}/>
-                            <p className={"w-64 text-center text-gray-500"}>
+                            <p className={"w-64 text-center text-gray-400"}>
                                 An email has been sent to your Epitech email address with a verification link. Please check
                                 your inbox.
                             </p>
@@ -205,7 +205,7 @@ export default function AuthPage(): React.ReactElement {
                                             to login to TekBetter.</p>
                                     </div>
                                     <input required type={"password"} placeholder={"TekBetter password"}
-                                           className={"w-full p-2 border border-gray-300 rounded"}
+                                           className={"w-full p-2 border border-gray-300 dark:bg-gray-700 rounded"}
                                            value={register_password.password}
                                            autoComplete="new-password"
                                            onChange={(e) => setRegisterPassword({
@@ -226,7 +226,7 @@ export default function AuthPage(): React.ReactElement {
                                         <p className={"text-red-500 text-sm"}>Bad password format</p>
                                     }
                                     <input required type={"password"} placeholder={"Confirm"}
-                                           className={"w-full p-2 border border-gray-300 rounded"}
+                                           className={"w-full p-2 border border-gray-300 dark:bg-gray-700 rounded"}
                                            value={register_password.confirm}
                                            autoComplete="new-password"
                                            onChange={(e) => setRegisterPassword({
@@ -268,7 +268,7 @@ export default function AuthPage(): React.ReactElement {
 
 
                     <div
-                        className={"flex-row flex items-center gap-1 hover:bg-gray-100 w-min px-1 rounded-2xl cursor-pointer"}
+                        className={"flex-row flex items-center gap-1 hover:bg-gray-100 dark:hover:bg-gray-700 w-min px-1 rounded-2xl cursor-pointer"}
                         onClick={() => window.open("https://github.com/EliotAmn/tekbetter-server", "_blank")}>
                         <div className={"w-6"}>
                             <GithubLogo/>
