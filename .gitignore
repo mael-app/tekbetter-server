@@ -9,3 +9,4 @@
 /.venv/
 /data/scrapers.json
 /data/student_pictures/
+/flask_monitoringdashboard.db
