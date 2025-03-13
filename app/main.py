@@ -19,7 +19,7 @@ from app.services.publicscraper_service import PublicScraperService
 from app.tools.envloader import load_env
 from app.tools.teklogger import log_info, log_debug, log_error, log_success
 from app.services.redis_service import RedisService
-
+import flask_monitoringdashboard as flask_monitoring
 _is_initialized = False
 
 
@@ -78,6 +78,7 @@ def create_app():
     init_services()
 
     flask_app = Flask(__name__, static_folder=os.getenv("DASHBOARD_BUILD_PATH", "../web/build"))
+    flask_monitoring.bind(flask_app)
 
     # Load the routes
     load_scrapers_routes(flask_app)
