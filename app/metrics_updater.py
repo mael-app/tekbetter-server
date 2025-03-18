@@ -10,14 +10,24 @@ def update_metrics():
 
 
 def update_user_total():
-    total_users = StudentService.get_all_students_count()
-    user_total.set(total_users)
-    log = f"Updated user_total to {total_users}"
-    log_debug(log)
+    student_counts = StudentService.get_students_count_by_campus_and_promo()
+    for row in student_counts:
+        campus = row["_id"].get("city")
+        promo_year = str(row["_id"].get("scolaryear_id"))
+        count = row["count"]
+
+        if campus and promo_year:
+            user_total.labels(campus=campus, promotion_year=promo_year).set(count)
+            log_debug(f"Updated user_total for campus={campus}, year={promo_year} to {count}")
 
 
 def update_user_total_verified():
-    total_users = StudentService.get_all_students_verified_count()
-    user_total_verified.set(total_users)
-    log = f"Updated user_total_verified to {total_users}"
-    log_debug(log)
+    verified_counts = StudentService.get_verified_students_count_by_campus_and_promo()
+    for row in verified_counts:
+        campus = row["_id"].get("city")
+        promo_year = str(row["_id"].get("scolaryear_id"))
+        count = row["count"]
+
+        if campus != "Epitech" and campus and promo_year:
+            user_total_verified.labels(campus=campus, promotion_year=promo_year).set(count)
+            log_debug(f"Updated user_total_verified for campus={campus}, year={promo_year} to {count}")

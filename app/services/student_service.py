@@ -50,6 +50,36 @@ class StudentService:
         return Globals.database["students"].count_documents({"last_update": {"$ne": None}})
 
     @staticmethod
+    def get_students_count_by_campus_and_promo():
+        pipeline = [
+            {
+                "$group": {
+                    "_id": {"city": "$city", "scolaryear_id": "$scolaryear_id"},
+                    "count": {"$sum": 1}
+                }
+            }
+        ]
+        return list(Globals.database["students"].aggregate(pipeline))
+
+    @staticmethod
+    def get_verified_students_count_by_campus_and_promo():
+        pipeline = [
+            {
+                "$match": {
+                    "last_update": {"$ne": None},
+                    "city": {"$ne": "Epitech"}
+                }
+            },
+            {
+                "$group": {
+                    "_id": {"city": "$city", "scolaryear_id": "$scolaryear_id"},
+                    "count": {"$sum": 1}
+                }
+            }
+        ]
+        return list(Globals.database["students"].aggregate(pipeline))
+
+    @staticmethod
     def get_public_scraper_students() -> [Student]:
         students = Globals.database["students"].find(
             {"microsoft_session": {"$ne": None}})
