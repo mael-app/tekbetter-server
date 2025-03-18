@@ -42,6 +42,14 @@ class StudentService:
         return [Student(student) for student in students]
 
     @staticmethod
+    def get_all_students_count() -> int:
+        return Globals.database["students"].count_documents({})
+
+    @staticmethod
+    def get_all_students_verified_count() -> int:
+        return Globals.database["students"].count_documents({"last_update": {"$ne": None}})
+
+    @staticmethod
     def get_public_scraper_students() -> [Student]:
         students = Globals.database["students"].find(
             {"microsoft_session": {"$ne": None}})
