@@ -2,6 +2,7 @@ import os
 import pymongo
 from flask import Flask, send_from_directory, render_template
 from flask_cors import CORS
+from apscheduler.schedulers.background import BackgroundScheduler
 
 from app.api.routes.auth_routes import load_auth_routes
 from app.api.routes.calendar_routes import load_calendar_routes
@@ -20,8 +21,10 @@ from app.tools.envloader import load_env
 from app.tools.teklogger import log_info, log_debug, log_error, log_success, log_warning
 from app.services.redis_service import RedisService
 import flask_monitoringdashboard as flask_monitoring
-_is_initialized = False
+from prometheus_client import generate_latest, CONTENT_TYPE_LATEST
+from app.metrics_updater import update_metrics
 
+_is_initialized = False
 
 os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -109,6 +112,19 @@ def create_app():
         MouliService.refresh_all_cache()
 
     ModuleService.purge_nonid_modules()
+
+    # Prometheus metrics
+    @flask_app.route('/metrics')
+    def metrics():
+        return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+
+    # Scheduler for periodic tasks
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(func=update_metrics, trigger="interval", seconds=60)
+    scheduler.start()
+
+    import atexit
+    atexit.register(lambda: scheduler.shutdown())
 
     return flask_app
 

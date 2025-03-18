@@ -129,3 +129,16 @@ Here is an example of a scraper configuration :
 
 `access_token` is a random string that will be used to authenticate the scraper. This access token will be set in the
 scraper environment variable `SCRAPER_ACCESS_TOKEN`.
+
+## Metrics
+
+A Prometheus-compatible metrics endpoint is available at:
+```text
+http://localhost:8080/metrics
+```
+This endpoint exposes the following metrics:
+
+- `user_total`: Total number of users in the database.
+- `user_total_verified`: Number of users who have verified their accounts.
+
+You can use this endpoint to integrate TekBetter into your Prometheus monitoring setup.
