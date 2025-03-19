@@ -36,6 +36,7 @@ their daily life.
 | SMTP_USER           | The SMTP server username.                                                        |               |
 | SMTP_PASSWORD       | The SMTP server password.                                                        |               |
 | BYPASS_CACHE_RELOAD | This bypass the cache reload when the server is started.                         | false         |
+| SENTRY_DSN          | This enabled Sentry issues tracking (set you're sentry dsn)                      |               |
 
 ### Frontend (`/web/.env`)
 

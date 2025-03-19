@@ -40,3 +40,4 @@ ics~=0.7.2
 mailersend~=0.5.8
 yagmail~=0.15.293
 prometheus-client~=0.21.1
+sentry-sdk~=2.23.1

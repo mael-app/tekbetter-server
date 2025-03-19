@@ -42,6 +42,22 @@ def init_services():
         log_error(str(e))
         exit(1)
 
+    # Setup Sentry if DSN is provided
+    if os.getenv("SENTRY_DSN") != "":
+        try:
+            import sentry_sdk
+            sentry_sdk.init(
+                dsn=os.getenv("SENTRY_DSN"),
+                send_default_pii=True,
+                traces_sample_rate=1.0,
+                _experiments={
+                    "continuous_profiling_auto_start": True,
+                },
+            )
+            log_success("Initialized Sentry")
+        except Exception as e:
+            log_error(f"Failed to initialize Sentry: {e}")
+
     # Connect to MongoDB
     mongo_url = f"mongodb://{os.getenv('MONGO_HOST')}:{os.getenv('MONGO_PORT')}?directConnection=true"
     log_info("Connecting to MongoDB...")
