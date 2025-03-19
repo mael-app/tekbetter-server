@@ -1,5 +1,5 @@
 from app.services.student_service import StudentService
-from app.metrics import user_total, user_total_verified
+from app.metrics import user_total, user_total_verified, users_per_scraper
 from app.tools.teklogger import log_debug
 
 
@@ -7,6 +7,7 @@ def update_metrics():
     log_debug("Updating metrics")
     update_user_total()
     update_user_total_verified()
+    update_public_scraper_repartition()
 
 
 def update_user_total():
@@ -20,6 +21,11 @@ def update_user_total():
             user_total.labels(campus=campus, promotion_year=promo_year).set(count)
             log_debug(f"Updated user_total for campus={campus}, year={promo_year} to {count}")
 
+def update_public_scraper_repartition():
+    students = StudentService.get_all_students()
+    for student in students:
+        if student.public_scraper_id:
+            users_per_scraper.labels(scraper=student.public_scraper_id).inc()
 
 def update_user_total_verified():
     verified_counts = StudentService.get_verified_students_count_by_campus_and_promo()

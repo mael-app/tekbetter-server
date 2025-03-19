@@ -137,6 +137,7 @@ def create_app():
     # Scheduler for periodic tasks
     scheduler = BackgroundScheduler()
     scheduler.add_job(func=update_metrics, trigger="interval", seconds=60)
+    update_metrics()
     scheduler.start()
 
     import atexit
