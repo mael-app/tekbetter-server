@@ -30,7 +30,7 @@ os.chdir(os.path.join(os.path.dirname(__file__), ".."))
 
 
 def init_services():
-    """Initialize database connections and services"""
+    """Initialize database connections and services aa"""
     global _is_initialized
 
     if _is_initialized:
@@ -42,7 +42,7 @@ def init_services():
         log_error(str(e))
         exit(1)
 
-    # Setup Sentry if DSN is provided
+    # Setup Sentry if DSN is provided test
     if os.getenv("SENTRY_DSN") != "":
         try:
             import sentry_sdk
