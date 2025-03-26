@@ -15,4 +15,4 @@ jobs:
         with:
           args: >
             -Dsonar.organization=mael-app
-            -Dsonar.projectKey=tekbetter-server
+            -Dsonar.projectKey=mael-app_tekbetter-server
